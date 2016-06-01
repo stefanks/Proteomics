@@ -1218,6 +1218,26 @@ namespace Proteomics
             return true;
         }
 
+        class ModWithOnlyMass : IHasMass
+        {
+            private double mass;
+            public ModWithOnlyMass(double mass)
+            {
+                this.mass = mass;
+            }
+            public double MonoisotopicMass
+            {
+                get
+                {
+                    return mass;
+                }
+            }
+            public override string ToString()
+            {
+                return mass.ToString();
+            }
+        }
+
         /// <summary>
         /// Parses a string sequence of amino acids characters into a peptide object
         /// </summary>
@@ -1265,8 +1285,8 @@ namespace Proteomics
                                 }
                                 else if (double.TryParse(modString, out mass))
                                 {
-                                    modification = new Mass(mass);
-                                }
+                                    modification = new ModWithOnlyMass(mass);
+}
                                 else
                                 {
                                     throw new ArgumentException("Unable to correctly parse the following modification: " + modString);

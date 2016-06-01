@@ -87,13 +87,13 @@ namespace Proteomics
             T2[] sortedPeptides = peptides.OrderBy(p => p.MonoisotopicMass).ToArray();
 
             // Convert the first peptide to m/z space
-            double previousMz = Mass.MzFromMass(sortedPeptides[0].MonoisotopicMass, charge);
+            double previousMz = sortedPeptides[0].ToMz(charge);
 
             // Loop over each other peptide in sorted order
             for (int i = 1; i < sortedPeptides.Length; i++)
             {
                 // Grab the current peptide's m/z
-                double currentMZ = Mass.MzFromMass(peptides[i].MonoisotopicMass, charge);
+                double currentMZ = peptides[i].ToMz(charge);
 
                 // Calculate the spacing between the two channels
                 spacings[i - 1] = currentMZ - previousMz;
