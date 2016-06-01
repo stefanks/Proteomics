@@ -4,5 +4,6 @@ install:
   - nuget restore Proteomics.sln
   - nuget install NUnit.Console -OutputDirectory testrunner
 script:
-  - xbuild Proteomics.sln 
+  - xbuild/p:Configuration=Debug Proteomics.sln 
   - mono ./testrunner/NUnit.ConsoleRunner.*/tools/nunit3-console.exe ./Test/bin/Debug/Test.dll
+  - xbuild/p:Configuration=Release Proteomics.sln 
