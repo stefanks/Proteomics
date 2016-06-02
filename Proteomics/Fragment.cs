@@ -1,19 +1,20 @@
 ﻿// Copyright 2012, 2013, 2014 Derek J. Bailey
+// Modified work copyright 2016 Stefan Solntsev
 // 
-// This file (Fragment.cs) is part of CSMSL.
+// This file (Fragment.cs) is part of Proteomics.
 // 
-// CSMSL is free software: you can redistribute it and/or modify it
+// Proteomics is free software: you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 // 
-// CSMSL is distributed in the hope that it will be useful, but WITHOUT
+// Proteomics is distributed in the hope that it will be useful, but WITHOUT
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 // FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
 // License for more details.
 // 
 // You should have received a copy of the GNU Lesser General Public
-// License along with CSMSL. If not, see <http://www.gnu.org/licenses/>.
+// License along with Proteomics. If not, see <http://www.gnu.org/licenses/>.
 
 using Chemistry;
 using System;
@@ -38,12 +39,6 @@ namespace Proteomics
         public AminoAcidPolymer Parent { get; private set; }
 
         public FragmentTypes Type { get; private set; }
-
-        // TODO figure if this is the best way to do chemical formula fragments
-        //public bool TryGetFormula(out ChemicalFormula formula)
-        //{
-        // Might add this
-        //}
 
         public IEnumerable<IHasMass> GetModifications()
         {

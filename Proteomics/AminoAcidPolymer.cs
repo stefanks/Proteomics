@@ -1,19 +1,20 @@
 ﻿// Copyright 2012, 2013, 2014 Derek J. Bailey
+// Modified work copyright 2016 Stefan Solntsev
 // 
-// This file (AminoAcidPolymer.cs) is part of CSMSL.
+// This file (AminoAcidPolymer.cs) is part of Proteomics.
 // 
-// CSMSL is free software: you can redistribute it and/or modify it
+// Proteomics is free software: you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 // 
-// CSMSL is distributed in the hope that it will be useful, but WITHOUT
+// Proteomics is distributed in the hope that it will be useful, but WITHOUT
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 // FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
 // License for more details.
 // 
 // You should have received a copy of the GNU Lesser General Public
-// License along with CSMSL. If not, see <http://www.gnu.org/licenses/>.
+// License along with Proteomics. If not, see <http://www.gnu.org/licenses/>.
 
 using Chemistry;
 using Proetomics;
@@ -46,7 +47,6 @@ namespace Proteomics
         /// or generate the string dynamically. If true, certain operations will be quicker at the cost of
         /// increased memory consumption. Default value is True.
         /// </summary>
-        public static bool StoreSequenceString { get; set; }
 
         #endregion Static Properties
 
@@ -72,34 +72,12 @@ namespace Proteomics
         /// All of the amino acid residues indexed by position from N to C.
         /// </summary>
         private AminoAcid[] _aminoAcids;
-
-        /// <summary>
-        /// The amino acid sequence with modification names interspersed. Is ignored if 'StoreSequenceString' is false
-        /// </summary>
-        private string _sequenceWithMods;
-
-        /// <summary>
-        /// The amino acid sequence. Is ignored if 'StoreSequenceString' is false
-        /// </summary>
-        private string _sequence;
-
-        /// <summary>
-        /// The internal flag to represent that the sequence with modifications have been changed and need to be updated
-        /// </summary>
-        internal bool IsDirty { get; set; }
+             
 
         #endregion Instance Variables
 
         #region Constructors
-
-        /// <summary>
-        /// Static constructor, sets the default parameters for all amino acid polymers
-        /// </summary>
-        static AminoAcidPolymer()
-        {
-            StoreSequenceString = true;
-        }
-
+        
         protected AminoAcidPolymer()
             : this(string.Empty, DefaultNTerminus, DefaultCTerminus)
         {
@@ -181,8 +159,7 @@ namespace Proteomics
                 if (isCterm)
                     CTerminusModification = aminoAcidPolymer.CTerminusModification;
             }
-
-            IsDirty = true;
+            
         }
 
         #endregion Constructors
@@ -284,17 +261,7 @@ namespace Proteomics
         {
             get
             {
-                // Don't store the string if we don't have too, just recreate it on the fly
-                if (!StoreSequenceString)
-                    return new string(_aminoAcids.Select(aa => aa.Letter).ToArray());
-
-                // Generate the sequence if the stored version is null or empty
-                if (string.IsNullOrEmpty(_sequence))
-                {
-                    _sequence = new string(_aminoAcids.Select(aa => aa.Letter).ToArray());
-                }
-
-                return _sequence;
+                return new string(_aminoAcids.Select(aa => aa.Letter).ToArray());
             }
         }
 
@@ -305,16 +272,7 @@ namespace Proteomics
         {
             get
             {
-                // Don't store the string if we don't have too, just recreate it on the fly
-                if (!StoreSequenceString)
-                    return GetSequenceWithModifications();
-
-                if (!IsDirty && !string.IsNullOrEmpty(_sequenceWithMods))
-                    return _sequenceWithMods;
-
-                _sequenceWithMods = GetSequenceWithModifications();
-                IsDirty = false;
-                return _sequenceWithMods;
+                return GetSequenceWithModifications();
             }
         }
 
@@ -988,7 +946,6 @@ namespace Proteomics
 
                 MonoisotopicMass -= _modifications[i].MonoisotopicMass;
                 _modifications[i] = null;
-                IsDirty = true;
             }
         }
 
@@ -1008,7 +965,6 @@ namespace Proteomics
 
                 MonoisotopicMass -= mod.MonoisotopicMass;
                 _modifications[i] = null;
-                IsDirty = true;
             }
         }
 
@@ -1204,9 +1160,7 @@ namespace Proteomics
 
             if (Equals(mod, oldMod))
                 return false; // Same modifications, no change is required
-
-            IsDirty = true;
-
+            
             if (oldMod != null)
                 MonoisotopicMass -= oldMod.MonoisotopicMass; // remove the old mod mass
 
@@ -1253,11 +1207,6 @@ namespace Proteomics
             int index = 0;
 
             double monoMass = 0;
-
-            StringBuilder sb = null;
-            bool storeSequenceString = StoreSequenceString;
-            if (storeSequenceString)
-                sb = new StringBuilder(sequence.Length);
 
             StringBuilder modSb = new StringBuilder(10);
             foreach (char letter in sequence)
@@ -1322,8 +1271,6 @@ namespace Proteomics
                     if (AminoAcid.TryGetResidue(letter, out residue))
                     {
                         _aminoAcids[index++] = residue;
-                        if (storeSequenceString)
-                            sb.Append(residue.Letter);
                         monoMass += residue.MonoisotopicMass;
                     }
                     else
@@ -1355,16 +1302,13 @@ namespace Proteomics
             {
                 throw new ArgumentException("Couldn't find the closing ] for a modification in this sequence: " + sequence);
             }
-
-            if (storeSequenceString)
-                _sequence = sb.ToString();
+            
 
             Length = index;
             MonoisotopicMass += monoMass;
             Array.Resize(ref _aminoAcids, Length);
             if (_modifications != null)
                 Array.Resize(ref _modifications, Length + 2);
-            IsDirty = true;
 
             return true;
         }
