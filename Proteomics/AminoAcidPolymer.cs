@@ -16,7 +16,6 @@
 // License along with CSMSL. If not, see <http://www.gnu.org/licenses/>.
 
 using Chemistry;
-using Proetomics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
