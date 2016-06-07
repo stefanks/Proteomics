@@ -429,13 +429,10 @@ namespace Proteomics
                 bool isChemicalFormula = calculateChemicalFormula;
                 ChemicalFormula capFormula = type.GetIonCap();
                 bool isCTerminal = type.GetTerminus() == Terminus.C;
-
-                // OK 1
+                
                 double monoMass = capFormula.MonoisotopicMass;
                 ChemicalFormula formula = new ChemicalFormula(capFormula);
-
-
-                // OK 2
+                
                 IHasChemicalFormula terminus = isCTerminal ? CTerminus : NTerminus;
                 monoMass += terminus.MonoisotopicMass;
                 if (isChemicalFormula)
@@ -460,7 +457,6 @@ namespace Proteomics
                             mod = _modifications[aaIndex + 1];
                             if (mod != null)
                             {
-                                // OK 3
                                 monoMass += mod.MonoisotopicMass;
                                 if (isChemicalFormula)
                                 {
@@ -478,8 +474,7 @@ namespace Proteomics
                         }
                         continue;
                     }
-
-                    // OK 4
+                    
                     monoMass += _aminoAcids[aaIndex].MonoisotopicMass;
                     formula.Add(_aminoAcids[aaIndex]);
 
@@ -489,7 +484,6 @@ namespace Proteomics
 
                         if (mod != null)
                         {
-                            // OK 5
                             monoMass += mod.MonoisotopicMass;
                             if (isChemicalFormula)
                             {

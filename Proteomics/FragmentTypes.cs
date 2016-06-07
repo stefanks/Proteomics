@@ -48,7 +48,7 @@ namespace Proteomics
         {
             if (fragmentTypes == FragmentTypes.None)
                 yield break;
-            foreach (FragmentTypes site in Enum.GetValues(typeof (FragmentTypes)))
+            foreach (FragmentTypes site in Enum.GetValues(typeof(FragmentTypes)))
             {
                 if (site == FragmentTypes.None || site == FragmentTypes.All || site == FragmentTypes.Internal)
                 {
