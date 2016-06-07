@@ -20,6 +20,8 @@ using Chemistry;
 using NUnit.Framework;
 using Proteomics;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Test
 {
@@ -519,5 +521,21 @@ namespace Test
 
             Assert.AreEqual("DERLEK", leuSeq);
         }
+
+        [Test]
+        public void GetSequenceCoverage()
+        {
+            Peptide pepA = new Peptide("DERLEK");
+            Peptide pepAa = new Peptide("ER");
+            Peptide pepAb = new Peptide("RL");
+            Peptide pepAc = new Peptide("LEK");
+            List<Peptide> myList = new List<Peptide>();
+            myList.Add(pepAa);
+            myList.Add(pepAb);
+            myList.Add(pepAc);
+            Assert.IsTrue(pepA.GetSequenceCoverage(myList).SequenceEqual(new List<int> { 0, 1, 2, 2, 1, 1 }));
+        }
+
+
     }
 }
