@@ -49,5 +49,38 @@ namespace Test
             Assert.IsFalse(a.Equals(c));
             Assert.IsFalse(a.Equals(d));
         }
+
+        [Test]
+        public void ModificationSitesTest()
+        {
+            // Empty modification, has no name and by default has Sites = ModificationSites.Any
+            var a = ModificationSites.A | ModificationSites.E;
+            var b = a.Set('C');
+            Assert.AreEqual(ModificationSites.A | ModificationSites.E | ModificationSites.C, b);
+    
+        }
+        
+        [Test]
+        public void ModificationSitesTest2()
+        {
+            // Empty modification, has no name and by default has Sites = ModificationSites.Any
+            var a = ModificationSites.A | ModificationSites.E;
+            var b =a.Set(AminoAcid.GetResidue("D"));
+            Assert.AreEqual(ModificationSites.A | ModificationSites.E |ModificationSites.D, b);
+        }
+
+        [Test]
+        public void Sites()
+        {
+            // Empty modification, has no name and by default has Sites = ModificationSites.Any
+            var a = ModificationSites.A | ModificationSites.C | ModificationSites.E;
+            Assert.IsTrue(a.ContainsSite(ModificationSites.E));
+
+            Assert.IsTrue(a.ContainsSite(ModificationSites.A | ModificationSites.C));
+            Assert.IsFalse(a.ContainsSite(ModificationSites.N));
+            Assert.IsFalse(a.ContainsSite(ModificationSites.N | ModificationSites.C));
+            var b = a.GetActiveSites();
+            Assert.IsTrue(b.Count() == 3);
+        }
     }
 }
