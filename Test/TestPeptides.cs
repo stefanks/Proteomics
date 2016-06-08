@@ -557,5 +557,17 @@ namespace Test
             var a = pep.GenerateIsotopologues();
             Console.WriteLine(String.Join(",", a));
         }
+
+        [Test]
+        public void GetSequenceCoverageFraction()
+        {
+            Peptide pepA = new Peptide("DERLEK");
+            Peptide pepAa = new Peptide("ER");
+            Peptide pepAb = new Peptide("RL");
+            List<Peptide> myList = new List<Peptide>();
+            myList.Add(pepAa);
+            myList.Add(pepAb);
+            Assert.AreEqual(0.5,pepA.GetSequenceCoverageFraction(myList));
+        }
     }
 }
