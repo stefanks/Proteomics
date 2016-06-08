@@ -78,7 +78,7 @@ namespace Proteomics
 
         public static IEnumerable<ModificationSites> GetActiveSites(this ModificationSites sites)
         {
-            foreach (ModificationSites site in Enum.GetValues(typeof (ModificationSites)))
+            foreach (ModificationSites site in Enum.GetValues(typeof(ModificationSites)))
             {
                 if (site == ModificationSites.None)
                 {

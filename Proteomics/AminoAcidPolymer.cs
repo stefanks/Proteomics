@@ -71,12 +71,12 @@ namespace Proteomics
         /// All of the amino acid residues indexed by position from N to C.
         /// </summary>
         private AminoAcid[] _aminoAcids;
-             
+
 
         #endregion Instance Variables
 
         #region Constructors
-        
+
         protected AminoAcidPolymer()
             : this(string.Empty, DefaultNTerminus, DefaultCTerminus)
         {
@@ -158,7 +158,7 @@ namespace Proteomics
                 if (isCterm)
                     CTerminusModification = aminoAcidPolymer.CTerminusModification;
             }
-            
+
         }
 
         #endregion Constructors
@@ -429,10 +429,10 @@ namespace Proteomics
                 bool isChemicalFormula = calculateChemicalFormula;
                 ChemicalFormula capFormula = type.GetIonCap();
                 bool isCTerminal = type.GetTerminus() == Terminus.C;
-                
+
                 double monoMass = capFormula.MonoisotopicMass;
                 ChemicalFormula formula = new ChemicalFormula(capFormula);
-                
+
                 IHasChemicalFormula terminus = isCTerminal ? CTerminus : NTerminus;
                 monoMass += terminus.MonoisotopicMass;
                 if (isChemicalFormula)
@@ -474,7 +474,7 @@ namespace Proteomics
                         }
                         continue;
                     }
-                    
+
                     monoMass += _aminoAcids[aaIndex].MonoisotopicMass;
                     formula.Add(_aminoAcids[aaIndex]);
 
@@ -542,7 +542,7 @@ namespace Proteomics
             foreach (IHasMass mod in _modifications)
             {
                 if (mod is T)
-                    uniqueMods.Add((T) mod);
+                    uniqueMods.Add((T)mod);
             }
             return uniqueMods;
         }
@@ -1097,7 +1097,7 @@ namespace Proteomics
 
             if (containsMod != other.ContainsModifications())
                 return false;
-            
+
             for (int i = 0; i <= Length + 1; i++)
             {
                 if (containsMod && !Equals(_modifications[i], other._modifications[i]))
@@ -1157,7 +1157,7 @@ namespace Proteomics
 
             if (Equals(mod, oldMod))
                 return false; // Same modifications, no change is required
-            
+
             if (oldMod != null)
                 MonoisotopicMass -= oldMod.MonoisotopicMass; // remove the old mod mass
 
@@ -1290,7 +1290,7 @@ namespace Proteomics
             {
                 throw new ArgumentException("Couldn't find the closing ] for a modification in this sequence: " + sequence);
             }
-            
+
 
             Length = index;
             MonoisotopicMass += monoMass;
@@ -1351,27 +1351,27 @@ namespace Proteomics
 
             while (true)
             {
-                double QN1 = -1/(1 + Math.Pow(10, (3.65 - pH)));
-                double QN2 = -d/(1 + Math.Pow(10, (3.90 - pH)));
-                double QN3 = -e/(1 + Math.Pow(10, (4.07 - pH)));
-                double QN4 = -c/(1 + Math.Pow(10, (8.37 - pH)));
-                double QN5 = -y/(1 + Math.Pow(10, (10.46 - pH)));
-                double QP1 = h/(1 + Math.Pow(10, (pH - 6.04)));
-                double QP2 = 1/(1 + Math.Pow(10, (pH - 8.2)));
-                double QP3 = k/(1 + Math.Pow(10, (pH - 10.54)));
-                double QP4 = r/(1 + Math.Pow(10, (pH - 12.48)));
+                double QN1 = -1 / (1 + Math.Pow(10, (3.65 - pH)));
+                double QN2 = -d / (1 + Math.Pow(10, (3.90 - pH)));
+                double QN3 = -e / (1 + Math.Pow(10, (4.07 - pH)));
+                double QN4 = -c / (1 + Math.Pow(10, (8.37 - pH)));
+                double QN5 = -y / (1 + Math.Pow(10, (10.46 - pH)));
+                double QP1 = h / (1 + Math.Pow(10, (pH - 6.04)));
+                double QP2 = 1 / (1 + Math.Pow(10, (pH - 8.2)));
+                double QP3 = k / (1 + Math.Pow(10, (pH - 10.54)));
+                double QP4 = r / (1 + Math.Pow(10, (pH - 12.48)));
 
                 double NQ = QN1 + QN2 + QN3 + QN4 + QN5 + QP1 + QP2 + QP3 + QP4;
 
                 if (NQ < 0)
                 {
                     maxpH = pH;
-                    pH = pH - ((pH - minpH)/2);
+                    pH = pH - ((pH - minpH) / 2);
                 }
                 else
                 {
                     minpH = pH;
-                    pH = pH + ((maxpH - pH)/2);
+                    pH = pH + ((maxpH - pH) / 2);
                 }
 
                 if ((pH - minpH < precision) && (maxpH - pH < precision))
@@ -1419,7 +1419,7 @@ namespace Proteomics
 
         public static IEnumerable<Tuple<int, int>> GetDigestionPoints(string sequence, IProtease protease, int maxMissedCleavages = 3, int minLength = 1, int maxLength = int.MaxValue, bool methionineInitiator = true, bool semiDigestion = false)
         {
-            return GetDigestionPoints(sequence, new[] {protease}, maxMissedCleavages, minLength, maxLength, methionineInitiator, semiDigestion);
+            return GetDigestionPoints(sequence, new[] { protease }, maxMissedCleavages, minLength, maxLength, methionineInitiator, semiDigestion);
         }
 
         /// <summary>
@@ -1520,7 +1520,7 @@ namespace Proteomics
 
         public static IEnumerable<string> Digest(string sequence, IProtease protease, int maxMissedCleavages = 0, int minLength = 1, int maxLength = int.MaxValue, bool methionineInitiator = true, bool semiDigestion = false)
         {
-            return Digest(sequence, new[] {protease}, maxMissedCleavages, minLength, maxLength, methionineInitiator, semiDigestion);
+            return Digest(sequence, new[] { protease }, maxMissedCleavages, minLength, maxLength, methionineInitiator, semiDigestion);
         }
 
         public static IEnumerable<string> Digest(string sequence, IEnumerable<IProtease> proteases, int maxMissedCleavages = 3, int minLength = 1, int maxLength = int.MaxValue, bool methionineInitiator = true, bool semiDigestion = false)
@@ -1530,11 +1530,11 @@ namespace Proteomics
 
         public static IEnumerable<string> Digest(IAminoAcidSequence sequence, IProtease protease, int maxMissedCleavages = 3, int minLength = 1, int maxLength = int.MaxValue, bool methionineInitiator = true, bool semiDigestion = false)
         {
-            return Digest(sequence.Sequence, new[] {protease}, maxMissedCleavages, minLength, maxLength, methionineInitiator, semiDigestion);
+            return Digest(sequence.Sequence, new[] { protease }, maxMissedCleavages, minLength, maxLength, methionineInitiator, semiDigestion);
         }
 
         #endregion Digestion
-        
+
         #endregion Statics Methods
     }
 }

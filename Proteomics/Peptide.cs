@@ -16,10 +16,10 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with Proteomics. If not, see <http://www.gnu.org/licenses/>.
 
+using MathNet.Numerics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics;
 
 namespace Proteomics
 {
@@ -282,7 +282,7 @@ namespace Proteomics
                     else
                     {
                         // Completed all the mods, add the configuration to the saved list, if possible
-                        results.Add((Modification[]) modArray.Clone());
+                        results.Add((Modification[])modArray.Clone());
 
                         // Remove the last mod added
                         modArray[index] = null;
@@ -323,7 +323,7 @@ namespace Proteomics
                 {
                     long ans = a - 1;
                     while (Combinatorics.Combinations(Convert.ToInt32(ans), Convert.ToInt32(b)) > x) --ans;
-                    int index = sites[(int) (ptmsites - ans - 1)];
+                    int index = sites[(int)(ptmsites - ans - 1)];
                     if (index == 0)
                     {
                         pep.AddModification(modification, Terminus.N);
@@ -376,7 +376,7 @@ namespace Proteomics
             unchecked
             {
                 const int p = 16777619;
-                int hash = obj.Where(t => t != null).Aggregate((int) 2166136261, (current, t) => (current ^ t.GetHashCode())*p);
+                int hash = obj.Where(t => t != null).Aggregate((int)2166136261, (current, t) => (current ^ t.GetHashCode()) * p);
                 hash += hash << 13;
                 hash ^= hash >> 7;
                 hash += hash << 3;
