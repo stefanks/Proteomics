@@ -56,6 +56,6 @@ namespace Test
             AminoAcid aa = AminoAcid.GetResidue("Alanine");
 
             Assert.AreEqual(aa.Name, "Alanine");
-        }        
+        }
     }
 }

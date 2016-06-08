@@ -81,7 +81,7 @@ namespace Proteomics
 
         public override string ToString()
         {
-            return string.Format("{0}{1}", Enum.GetName(typeof (FragmentTypes), Type), Number);
+            return string.Format("{0}{1}", Enum.GetName(typeof(FragmentTypes), Type), Number);
         }
 
         public override int GetHashCode()
@@ -89,9 +89,9 @@ namespace Proteomics
             unchecked
             {
                 int hCode = 23;
-                hCode = hCode*31 + Number;
-                hCode = hCode*31 + (int) Type;
-                hCode = hCode*31 + Math.Round(MonoisotopicMass).GetHashCode();
+                hCode = hCode * 31 + Number;
+                hCode = hCode * 31 + (int)Type;
+                hCode = hCode * 31 + Math.Round(MonoisotopicMass).GetHashCode();
                 return hCode;
             }
         }
