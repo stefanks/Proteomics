@@ -536,6 +536,12 @@ namespace Test
             Assert.IsTrue(pepA.GetSequenceCoverage(myList).SequenceEqual(new List<int> { 0, 1, 2, 2, 1, 1 }));
         }
 
-
+        [Test]
+        public void GenerateIsoforms()
+        {
+            Peptide pep = new Peptide("DERLEK");
+            pep.SetModification(new ChemicalFormula("H2O"), Terminus.C);
+            var a = pep.GenerateIsoforms();
+        }
     }
 }
