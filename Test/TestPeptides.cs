@@ -540,9 +540,22 @@ namespace Test
         public void GenerateIsoforms()
         {
             Peptide pep = new Peptide("DERLEK");
-            Modification mod = new Modification(1,"Fake Modification", ModificationSites.E);
+            ChemicalFormulaModification mod = new ChemicalFormulaModification("O", ModificationSites.E);
             pep.SetModification(mod);
+            Console.WriteLine(pep);
             var a = pep.GenerateIsoforms();
+            Console.WriteLine(String.Join(",", a));
+        }
+
+
+        [Test]
+        public void GenerateIsotopologues()
+        {
+            Peptide pep = new Peptide("DERLEK");
+            ChemicalFormulaModification mod = new ChemicalFormulaModification("O", ModificationSites.E);
+            pep.SetModification(mod);
+            var a = pep.GenerateIsotopologues();
+            Console.WriteLine(String.Join(",", a));
         }
     }
 }

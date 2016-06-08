@@ -81,13 +81,8 @@ namespace Proteomics
             : this(sequence, null, 0)
         {
         }
-
-        public Peptide(string sequence, AminoAcidPolymer parent)
-            : this(sequence, parent, 0)
-        {
-        }
-
-        public Peptide(string sequence, AminoAcidPolymer parent, int startResidue)
+        
+        public Peptide(string sequence, AminoAcidPolymer parent, int startResidue=0)
             : base(sequence)
         {
             Parent = parent;
