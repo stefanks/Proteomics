@@ -540,7 +540,8 @@ namespace Test
         public void GenerateIsoforms()
         {
             Peptide pep = new Peptide("DERLEK");
-            pep.SetModification(new ChemicalFormula("H2O"), Terminus.C);
+            Modification mod = new Modification(1,"Fake Modification", ModificationSites.E);
+            pep.SetModification(mod);
             var a = pep.GenerateIsoforms();
         }
     }
