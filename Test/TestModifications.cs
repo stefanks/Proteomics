@@ -36,6 +36,18 @@ namespace Test
             Modification b = new Modification(a);
             Assert.AreEqual(" (Any)", b.NameAndSites);
         }
-        
+
+        [Test]
+        public void ModificationEquality()
+        {
+            // Empty modification, has no name and by default has Sites = ModificationSites.Any
+            Modification a = new Modification();
+            Modification b = new Modification();
+            Modification c = new Modification(0, "c");
+            Modification d = new Modification(0, "", ModificationSites.E);
+            Assert.IsTrue(a.Equals(b));
+            Assert.IsFalse(a.Equals(c));
+            Assert.IsFalse(a.Equals(d));
+        }
     }
 }
