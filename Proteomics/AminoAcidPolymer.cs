@@ -248,7 +248,7 @@ namespace Proteomics
         /// </summary>
         /// <param name="residue">The residue to check for</param>
         /// <returns>True if the polymer contains the specified residue, False otherwise</returns>
-        public bool Contains(IAminoAcid residue)
+        public bool Contains(AminoAcid residue)
         {
             return _aminoAcids.Contains(residue);
         }
@@ -329,7 +329,7 @@ namespace Proteomics
             return Length;
         }
 
-        public int ResidueCount(IAminoAcid aminoAcid)
+        public int ResidueCount(AminoAcid aminoAcid)
         {
             return aminoAcid == null ? 0 : _aminoAcids.Count(aar => aar.Equals(aminoAcid));
         }
@@ -350,7 +350,7 @@ namespace Proteomics
             return _aminoAcids.SubArray(index, length).Count(aar => aar.Letter.Equals(residueChar));
         }
 
-        public int ResidueCount(IAminoAcid aminoAcid, int index, int length)
+        public int ResidueCount(AminoAcid aminoAcid, int index, int length)
         {
             return _aminoAcids.SubArray(index, length).Count(aar => aar.Equals(aminoAcid));
         }
@@ -709,7 +709,7 @@ namespace Proteomics
         /// <param name="mod">The modification to set</param>
         /// <param name="residue">The residue to set the modification at</param>
         /// <returns>The number of modifications added to this amino acid polymer</returns>
-        public virtual int SetModification(IHasMass mod, IAminoAcid residue)
+        public virtual int SetModification(IHasMass mod, AminoAcid residue)
         {
             int count = 0;
             for (int i = 0; i < Length; i++)

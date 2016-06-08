@@ -23,9 +23,8 @@ using System.Globalization;
 
 namespace Proteomics
 {
-    public class AminoAcid : IAminoAcid
+    public class AminoAcid : IHasChemicalFormula
     {
-
         private static readonly Dictionary<string, AminoAcid> Residues;
 
         private static readonly AminoAcid[] ResiduesByLetter;

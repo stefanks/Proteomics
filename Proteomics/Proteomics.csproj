@@ -62,7 +62,6 @@
     <Compile Include="Util\ClassExtensions.cs" />
     <Compile Include="Fragment.cs" />
     <Compile Include="FragmentTypes.cs" />
-    <Compile Include="Interfaces\IAminoAcid.cs" />
     <Compile Include="Interfaces\IAminoAcidSequence.cs" />
     <Compile Include="Interfaces\IIsotopologue.cs" />
     <Compile Include="Interfaces\IProtease.cs" />
@@ -75,6 +74,7 @@
     <Compile Include="Terminus.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
