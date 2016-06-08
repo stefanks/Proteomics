@@ -24,7 +24,7 @@ using System.Linq;
 
 namespace Proteomics
 {
-    public class Isotopologue : Modification, IIsotopologue
+    public class Isotopologue : Modification, IHasMass, IEnumerable<Modification>
     {
         private readonly SortedList<double, Modification> _modifications;
 
