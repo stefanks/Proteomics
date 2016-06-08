@@ -355,23 +355,23 @@ namespace Proteomics
             return _aminoAcids.SubArray(index, length).Count(aar => aar.Equals(aminoAcid));
         }
 
-        public int ElementCount(string element)
+        public int ElementCountWithIsotopes(string element)
         {
             // Residues count
-            int count = _aminoAcids.Sum(aar => aar.thisChemicalFormula.Count(element));
+            int count = _aminoAcids.Sum(aar => aar.thisChemicalFormula.CountWithIsotopes(element));
             // Modifications count (if the mod is a IHasChemicalFormula)
             if (_modifications != null)
-                count += _modifications.Where(mod => mod is IHasChemicalFormula).Cast<IHasChemicalFormula>().Sum(mod => mod.thisChemicalFormula.Count(element));
+                count += _modifications.Where(mod => mod is IHasChemicalFormula).Cast<IHasChemicalFormula>().Sum(mod => mod.thisChemicalFormula.CountWithIsotopes(element));
             return count;
         }
 
-        public int ElementCount(Isotope isotope)
+        public int SpecificIsotopeCount(Isotope isotope)
         {
             // Residues count
-            int count = _aminoAcids.Sum(aar => aar.thisChemicalFormula.Count(isotope));
+            int count = _aminoAcids.Sum(aar => aar.thisChemicalFormula.CountSpecificIsotopes(isotope));
             // Modifications count (if the mod is a IHasChemicalFormula)
             if (_modifications != null)
-                count += _modifications.Where(mod => mod is IHasChemicalFormula).Cast<IHasChemicalFormula>().Sum(mod => mod.thisChemicalFormula.Count(isotope));
+                count += _modifications.Where(mod => mod is IHasChemicalFormula).Cast<IHasChemicalFormula>().Sum(mod => mod.thisChemicalFormula.CountSpecificIsotopes(isotope));
             return count;
         }
 
@@ -1075,9 +1075,7 @@ namespace Proteomics
         public override bool Equals(object obj)
         {
             if (obj == null)
-            {
                 return false;
-            }
 
             AminoAcidPolymer aap = obj as AminoAcidPolymer;
             return aap != null && Equals(aap);
@@ -1099,17 +1097,23 @@ namespace Proteomics
 
             if (containsMod != other.ContainsModifications())
                 return false;
-
+            
             for (int i = 0; i <= Length + 1; i++)
             {
                 if (containsMod && !Equals(_modifications[i], other._modifications[i]))
+                {
                     return false;
+                }
 
                 if (i == 0 || i == Length + 1)
+                {
                     continue; // uneven arrays, so skip these two conditions
+                }
 
                 if (!_aminoAcids[i - 1].Equals(other._aminoAcids[i - 1]))
+                {
                     return false;
+                }
             }
             return true;
         }
@@ -1213,27 +1217,18 @@ namespace Proteomics
                         string modString = modSb.ToString();
                         modSb.Clear();
                         IHasMass modification;
-                        switch (modString)
+                        double mass;
+                        if (ChemicalFormula.IsValidChemicalFormula(modString))
                         {
-                            case "#": // Make the modification unverisally heavy (all C12 and N14s are promoted to C13 and N15s)
-                                modification = _aminoAcids[index - 1].ToHeavyModification(true, true);
-                                break;
-
-                            default:
-                                double mass;
-                                if (ChemicalFormula.IsValidChemicalFormula(modString))
-                                {
-                                    modification = new ChemicalFormula(modString);
-                                }
-                                else if (double.TryParse(modString, out mass))
-                                {
-                                    modification = new ModWithOnlyMass(mass);
-}
-                                else
-                                {
-                                    throw new ArgumentException("Unable to correctly parse the following modification: " + modString);
-                                }
-                                break;
+                            modification = new ChemicalFormula(modString);
+                        }
+                        else if (double.TryParse(modString, out mass))
+                        {
+                            modification = new ModWithOnlyMass(mass);
+                        }
+                        else
+                        {
+                            throw new ArgumentException("Unable to correctly parse the following modification: " + modString);
                         }
 
                         monoMass += modification.MonoisotopicMass;

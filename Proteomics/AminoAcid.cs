@@ -139,27 +139,5 @@ namespace Proteomics
         {
             return string.Format("{0} {1} ({2})", Letter, Symbol, Name);
         }
-
-        public ChemicalFormulaModification ToHeavyModification(bool c, bool n)
-        {
-            var formula = new ChemicalFormula();
-            if (c)
-            {
-                Element carbon = PeriodicTable.GetElement("C");
-                int carbon12 = thisChemicalFormula.Count(carbon[12]);
-                formula.Add(carbon[12], -carbon12);
-                formula.Add(carbon[13], carbon12);
-            }
-
-            if (n)
-            {
-                Element nitrogen = PeriodicTable.GetElement("N");
-                int nitrogen14 = thisChemicalFormula.Count(nitrogen[14]);
-                formula.Add(nitrogen[14], -nitrogen14);
-                formula.Add(nitrogen[15], nitrogen14);
-            }
-
-            return new ChemicalFormulaModification(formula, "#", Site);
-        }
     }
 }

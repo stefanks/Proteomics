@@ -500,7 +500,7 @@ namespace Test
             Peptide pepC = new Peptide("REK");
             pepC.SetModification(new ChemicalFormula("H2O"), Terminus.C);
 
-            Assert.AreEqual(pepB, pepC);
+            Assert.AreEqual(pepC, pepB);
         }
 
         [Test]
