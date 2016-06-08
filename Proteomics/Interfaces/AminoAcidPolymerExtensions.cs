@@ -1,7 +1,7 @@
 ﻿// Copyright 2012, 2013, 2014 Derek J. Bailey
 // Modified work copyright 2016 Stefan Solntsev
 // 
-// This file (IAminoAcidSequence.cs) is part of Proteomics.
+// This file (AminoAcidPolymerExtensions.cs) is part of Proteomics.
 // 
 // Proteomics is free software: you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -22,40 +22,21 @@ using System.Linq;
 
 namespace Proteomics
 {
-    public interface IAminoAcidSequence
+    public static class AminoAcidPolymerExtensions
     {
-        /// <summary>
-        /// The amino acid sequence
-        /// </summary>
-        string Sequence { get; }
-
-        /// <summary>
-        /// The amino acid sequence with all 'I' replaced with 'L'
-        /// </summary>
-        /// <returns></returns>
-        string GetLeucineSequence();
-
-        /// <summary>
-        /// The length of the amino acid sequence
-        /// </summary>
-        int Length { get; }
-    }
-
-    public static class IAminoAcidSequenceExtensions
-    {
-        public static double GetSequenceCoverageFraction(this IAminoAcidSequence baseSequence, IEnumerable<IAminoAcidSequence> sequences, bool useLeucineSequence = true)
+        public static double GetSequenceCoverageFraction(this AminoAcidPolymer baseSequence, IEnumerable<AminoAcidPolymer> sequences, bool useLeucineSequence = true)
         {
             int[] counts = baseSequence.GetSequenceCoverage(sequences, useLeucineSequence);
             return ((double) counts.Count(x => x > 0))/baseSequence.Length;
         }
 
-        public static int[] GetSequenceCoverage(this IAminoAcidSequence baseSequence, IEnumerable<IAminoAcidSequence> sequences, bool useLeucineSequence = true)
+        public static int[] GetSequenceCoverage(this AminoAcidPolymer baseSequence, IEnumerable<AminoAcidPolymer> sequences, bool useLeucineSequence = true)
         {
             int[] bits = new int[baseSequence.Length];
 
             string masterSequence = useLeucineSequence ? baseSequence.GetLeucineSequence() : baseSequence.Sequence;
 
-            foreach (IAminoAcidSequence sequence in sequences)
+            foreach (AminoAcidPolymer sequence in sequences)
             {
                 string seq = useLeucineSequence ? sequence.GetLeucineSequence() : sequence.Sequence;
 
@@ -78,32 +59,6 @@ namespace Proteomics
                 }
             }
             return bits;
-        }
-    }
-
-    public class AminoAcidSequenceComparer : IEqualityComparer<IAminoAcidSequence>
-    {
-        public bool Equals(IAminoAcidSequence x, IAminoAcidSequence y)
-        {
-            return x.Sequence.Equals(y.Sequence);
-        }
-
-        public int GetHashCode(IAminoAcidSequence obj)
-        {
-            return obj.Sequence.GetHashCode();
-        }
-    }
-
-    public class AminoAcidLeucineSequenceComparer : IEqualityComparer<IAminoAcidSequence>
-    {
-        public int GetHashCode(IAminoAcidSequence obj)
-        {
-            return obj.GetLeucineSequence().GetHashCode();
-        }
-
-        public bool Equals(IAminoAcidSequence x, IAminoAcidSequence y)
-        {
-            return x.GetLeucineSequence().Equals(y.GetLeucineSequence());
         }
     }
 }

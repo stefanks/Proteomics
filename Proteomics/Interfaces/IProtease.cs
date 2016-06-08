@@ -33,10 +33,10 @@ namespace Proteomics
         /// <returns>A set of the 1-based indicies to cut at</returns>
         IEnumerable<int> GetDigestionSites(string aminoAcidSequence);
 
-        IEnumerable<int> GetDigestionSites(IAminoAcidSequence aminoAcidSequence);
+        IEnumerable<int> GetDigestionSites(AminoAcidPolymer aminoAcidSequence);
 
         int MissedCleavages(string sequence);
 
-        int MissedCleavages(IAminoAcidSequence aminoAcidSequence);
+        int MissedCleavages(AminoAcidPolymer aminoAcidSequence);
     }
 }

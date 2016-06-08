@@ -27,7 +27,7 @@ namespace Proteomics
     /// <summary>
     /// A linear polymer of amino acids
     /// </summary>
-    public abstract class AminoAcidPolymer : IEquatable<AminoAcidPolymer>, IHasMass, IAminoAcidSequence
+    public abstract class AminoAcidPolymer : IEquatable<AminoAcidPolymer>, IHasMass
     {
         #region Static Properties
 
@@ -248,7 +248,7 @@ namespace Proteomics
         /// </summary>
         /// <param name="residue">The residue to check for</param>
         /// <returns>True if the polymer contains the specified residue, False otherwise</returns>
-        public bool Contains(IAminoAcid residue)
+        public bool Contains(AminoAcid residue)
         {
             return _aminoAcids.Contains(residue);
         }
@@ -329,7 +329,7 @@ namespace Proteomics
             return Length;
         }
 
-        public int ResidueCount(IAminoAcid aminoAcid)
+        public int ResidueCount(AminoAcid aminoAcid)
         {
             return aminoAcid == null ? 0 : _aminoAcids.Count(aar => aar.Equals(aminoAcid));
         }
@@ -350,7 +350,7 @@ namespace Proteomics
             return _aminoAcids.SubArray(index, length).Count(aar => aar.Letter.Equals(residueChar));
         }
 
-        public int ResidueCount(IAminoAcid aminoAcid, int index, int length)
+        public int ResidueCount(AminoAcid aminoAcid, int index, int length)
         {
             return _aminoAcids.SubArray(index, length).Count(aar => aar.Equals(aminoAcid));
         }
@@ -375,7 +375,7 @@ namespace Proteomics
             return count;
         }
 
-        public bool Contains(IAminoAcidSequence item)
+        public bool Contains(AminoAcidPolymer item)
         {
             return Contains(item.Sequence);
         }
@@ -709,7 +709,7 @@ namespace Proteomics
         /// <param name="mod">The modification to set</param>
         /// <param name="residue">The residue to set the modification at</param>
         /// <returns>The number of modifications added to this amino acid polymer</returns>
-        public virtual int SetModification(IHasMass mod, IAminoAcid residue)
+        public virtual int SetModification(IHasMass mod, AminoAcid residue)
         {
             int count = 0;
             for (int i = 0; i < Length; i++)
@@ -1381,7 +1381,7 @@ namespace Proteomics
             return pH;
         }
 
-        public static double CalculateIsoelectricPoint(IAminoAcidSequence sequence, double precision = 0.01)
+        public static double CalculateIsoelectricPoint(AminoAcidPolymer sequence, double precision = 0.01)
         {
             return CalculateIsoelectricPoint(sequence.Sequence, precision);
         }
@@ -1528,7 +1528,7 @@ namespace Proteomics
             return GetDigestionPoints(sequence, proteases, maxMissedCleavages, minLength, maxLength, methionineInitiator, semiDigestion).Select(points => sequence.Substring(points.Item1, points.Item2));
         }
 
-        public static IEnumerable<string> Digest(IAminoAcidSequence sequence, IProtease protease, int maxMissedCleavages = 3, int minLength = 1, int maxLength = int.MaxValue, bool methionineInitiator = true, bool semiDigestion = false)
+        public static IEnumerable<string> Digest(AminoAcidPolymer sequence, IProtease protease, int maxMissedCleavages = 3, int minLength = 1, int maxLength = int.MaxValue, bool methionineInitiator = true, bool semiDigestion = false)
         {
             return Digest(sequence.Sequence, new[] { protease }, maxMissedCleavages, minLength, maxLength, methionineInitiator, semiDigestion);
         }
