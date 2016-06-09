@@ -38,6 +38,11 @@ namespace Test
             _mockTrypticPeptide = new Peptide("TTGSSSSSSSK");
         }
 
+        [Test]
+        public void PeptideTestReal()
+        {
+            _mockPeptideEveryAminoAcid = new Peptide("LDNLQQEIDFLTALYQAELSQMQTQISETNVILSMDNNR");
+        }
 
         [Test]
         public void PeptideMassGlycine()
