@@ -547,9 +547,7 @@ namespace Test
             Peptide pep = new Peptide("DERLEK");
             ChemicalFormulaModification mod = new ChemicalFormulaModification("O", ModificationSites.E);
             pep.SetModification(mod);
-            Console.WriteLine(pep);
             var a = pep.GenerateIsoforms();
-            Console.WriteLine(String.Join(",", a));
         }
 
 
@@ -560,7 +558,6 @@ namespace Test
             ChemicalFormulaModification mod = new ChemicalFormulaModification("O", ModificationSites.E);
             pep.SetModification(mod);
             var a = pep.GenerateIsotopologues();
-            Console.WriteLine(String.Join(",", a));
         }
 
         [Test]
