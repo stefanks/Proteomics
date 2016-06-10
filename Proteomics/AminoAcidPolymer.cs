@@ -34,12 +34,12 @@ namespace Proteomics
         /// <summary>
         /// The default chemical formula of the C terminus (hydroxyl group)
         /// </summary>
-        public static readonly ChemicalFormula DefaultCTerminus = new ChemicalFormula("OH");
+        public static readonly IHasChemicalFormula DefaultCTerminus = new ChemicalFormulaTerminus("OH");
 
         /// <summary>
         /// The default chemical formula of the N terminus (hydrogen)
         /// </summary>
-        public static readonly ChemicalFormula DefaultNTerminus = new ChemicalFormula("H");
+        public static readonly IHasChemicalFormula DefaultNTerminus = new ChemicalFormulaTerminus("H");
 
         /// <summary>
         /// Defines if newly generated Amino Acid Polymers will store the amino acid sequence as a string
@@ -1220,7 +1220,7 @@ namespace Proteomics
                         double mass;
                         if (ChemicalFormula.IsValidChemicalFormula(modString))
                         {
-                            modification = new ChemicalFormula(modString);
+                            modification = new ChemicalFormulaModification(modString);
                         }
                         else if (double.TryParse(modString, out mass))
                         {

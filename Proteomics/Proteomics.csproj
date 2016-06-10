@@ -35,8 +35,8 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Chemistry, Version=1.0.66.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\Chemistry.1.0.66\lib\net451\Chemistry.dll</HintPath>
+    <Reference Include="Chemistry, Version=1.0.69.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\..\SoftwareLockMass\packages\Chemistry.1.0.69\lib\net451\Chemistry.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MathNet.Numerics, Version=3.11.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -58,6 +58,7 @@
     <Compile Include="AminoAcidPolymer.cs" />
     <Compile Include="ChemicalFormulaFragment.cs" />
     <Compile Include="ChemicalFormulaModification.cs" />
+    <Compile Include="ChemicalFormulaTerminus.cs" />
     <Compile Include="Util\ClassExtensions.cs" />
     <Compile Include="Fragment.cs" />
     <Compile Include="FragmentTypes.cs" />
