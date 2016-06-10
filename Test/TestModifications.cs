@@ -119,5 +119,13 @@ namespace Test
             Assert.IsTrue(m.Contains(new Modification(2, "My Mod2b", ModificationSites.E)));
 
         }
+
+        [Test]
+        public void ModificationSitesTest55()
+        {
+            Assert.IsTrue( ModificationSites.E.ContainsSite(ModificationSites.Any));
+            Assert.IsFalse(ModificationSites.E.ContainsSite(ModificationSites.None));
+            Assert.IsTrue(ModificationSites.None.ContainsSite(ModificationSites.None));
+        }
     }
 }

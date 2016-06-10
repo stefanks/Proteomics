@@ -27,6 +27,14 @@ namespace Test
     {
 
         [Test]
+        public void GetResidueNotInDictionary()
+        {
+            AminoAcid r;
+            Assert.IsFalse(AminoAcid.TryGetResidue("?", out r));
+            Assert.IsFalse(AminoAcid.TryGetResidue('?', out r));
+        }
+
+        [Test]
         public void GetResidueByCharacter()
         {
             AminoAcid aa = AminoAcid.GetResidue('A');
