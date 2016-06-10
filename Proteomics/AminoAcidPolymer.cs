@@ -34,12 +34,12 @@ namespace Proteomics
         /// <summary>
         /// The default chemical formula of the C terminus (hydroxyl group)
         /// </summary>
-        public static readonly ChemicalFormula DefaultCTerminus = new ChemicalFormula("OH");
+        public static readonly IHasChemicalFormula DefaultCTerminus = new ChemicalFormulaTerminus("OH");
 
         /// <summary>
         /// The default chemical formula of the N terminus (hydrogen)
         /// </summary>
-        public static readonly ChemicalFormula DefaultNTerminus = new ChemicalFormula("H");
+        public static readonly IHasChemicalFormula DefaultNTerminus = new ChemicalFormulaTerminus("H");
 
         /// <summary>
         /// Defines if newly generated Amino Acid Polymers will store the amino acid sequence as a string
@@ -442,7 +442,7 @@ namespace Proteomics
 
                 bool first = true;
                 bool hasMod = _modifications != null;
-
+                
                 for (int i = 0; i <= max; i++)
                 {
                     int aaIndex = isCTerminal ? Length - i : i - 1;
@@ -502,7 +502,7 @@ namespace Proteomics
 
                     if (i < min)
                         continue;
-
+                    
                     if (isChemicalFormula)
                     {
                         yield return new ChemicalFormulaFragment(type, i, formula, this);
@@ -1150,7 +1150,7 @@ namespace Proteomics
 
             if (_modifications == null)
             {
-                _modifications = new IHasMass[Length + 2];
+                 _modifications = new IHasMass[Length + 2];
             }
 
             IHasMass oldMod = _modifications[index]; // Get the mod at the index, if present
@@ -1220,7 +1220,7 @@ namespace Proteomics
                         double mass;
                         if (ChemicalFormula.IsValidChemicalFormula(modString))
                         {
-                            modification = new ChemicalFormula(modString);
+                            modification = new ChemicalFormulaModification(modString);
                         }
                         else if (double.TryParse(modString, out mass))
                         {

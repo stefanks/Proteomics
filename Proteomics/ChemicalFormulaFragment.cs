@@ -23,12 +23,7 @@ namespace Proteomics
     public class ChemicalFormulaFragment : Fragment, IHasChemicalFormula
     {
         public ChemicalFormula thisChemicalFormula { get; private set; }
-
-        public ChemicalFormulaFragment(FragmentTypes type, int number, string chemicalFormula, AminoAcidPolymer parent)
-            : this(type, number, new ChemicalFormula(chemicalFormula), parent)
-        {
-        }
-
+        
         public ChemicalFormulaFragment(FragmentTypes type, int number, ChemicalFormula formula, AminoAcidPolymer parent)
             : base(type, number, formula.MonoisotopicMass, parent)
         {

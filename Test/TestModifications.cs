@@ -16,6 +16,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with Proteomics. If not, see <http://www.gnu.org/licenses/>.
 
+using Chemistry;
 using NUnit.Framework;
 using Proteomics;
 using System;
@@ -57,16 +58,16 @@ namespace Test
             var a = ModificationSites.A | ModificationSites.E;
             var b = a.Set('C');
             Assert.AreEqual(ModificationSites.A | ModificationSites.E | ModificationSites.C, b);
-    
+
         }
-        
+
         [Test]
         public void ModificationSitesTest2()
         {
             // Empty modification, has no name and by default has Sites = ModificationSites.Any
             var a = ModificationSites.A | ModificationSites.E;
-            var b =a.Set(AminoAcid.GetResidue("D"));
-            Assert.AreEqual(ModificationSites.A | ModificationSites.E |ModificationSites.D, b);
+            var b = a.Set(AminoAcid.GetResidue("D"));
+            Assert.AreEqual(ModificationSites.A | ModificationSites.E | ModificationSites.D, b);
         }
 
         [Test]
@@ -81,6 +82,50 @@ namespace Test
             Assert.IsFalse(a.ContainsSite(ModificationSites.N | ModificationSites.C));
             var b = a.GetActiveSites();
             Assert.IsTrue(b.Count() == 3);
+        }
+
+        [Test]
+        public void ModificationCollectionTest()
+        {
+            ModificationCollection a = new ModificationCollection(new Modification(1, "Mod1"), new Modification(2, "Mod2"));
+            Assert.AreEqual("Mod1 | Mod2", a.ToString());
+            a.Add(new Modification(3, "Mod3"));
+            Assert.AreEqual("Mod1 | Mod2 | Mod3", a.ToString());
+            Assert.IsTrue(a.Contains(new Modification(2, "Mod2")));
+            IHasMass[] myArray = new IHasMass[4];
+            a.CopyTo(myArray, 1);
+            Assert.AreEqual(3, myArray.Sum(b => b == null ? 0 : 1));
+            Assert.AreEqual(3, a.Count());
+            Assert.IsFalse(a.IsReadOnly);
+            a.Remove(new Modification(2, "Mod2"));
+            Assert.AreEqual("Mod1 | Mod3", a.ToString());
+            double ok = 0;
+            foreach (var b in a)
+                ok += b.MonoisotopicMass;
+            Assert.AreEqual(4, ok);
+            a.Clear();
+            Assert.AreEqual("", a.ToString());
+        }
+
+        [Test]
+        public void ModificationWithMultiplePossibilitiesTest()
+        {
+            var m = new ModificationWithMultiplePossibilities("My Iso Mod", ModificationSites.E);
+            m.AddModification(new Modification(1, "My Mod1a", ModificationSites.E));
+            m.AddModification(new Modification(2, "My Mod2b", ModificationSites.E));
+            Assert.AreEqual(2, m.Count);
+            Assert.AreEqual("My Mod2b", m[1].Name);
+            Assert.Throws<ArgumentException>(()=> { m.AddModification(new Modification(1, "gg", ModificationSites.R)); }, "Unable to add a modification with sites other than ModificationSites.E");
+            Assert.IsTrue(m.Contains(new Modification(2, "My Mod2b", ModificationSites.E)));
+
+        }
+
+        [Test]
+        public void ModificationSitesTest55()
+        {
+            Assert.IsTrue( ModificationSites.E.ContainsSite(ModificationSites.Any));
+            Assert.IsFalse(ModificationSites.E.ContainsSite(ModificationSites.None));
+            Assert.IsTrue(ModificationSites.None.ContainsSite(ModificationSites.None));
         }
     }
 }
