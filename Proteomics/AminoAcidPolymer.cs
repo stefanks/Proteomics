@@ -442,7 +442,7 @@ namespace Proteomics
 
                 bool first = true;
                 bool hasMod = _modifications != null;
-
+                
                 for (int i = 0; i <= max; i++)
                 {
                     int aaIndex = isCTerminal ? Length - i : i - 1;
@@ -502,7 +502,7 @@ namespace Proteomics
 
                     if (i < min)
                         continue;
-
+                    
                     if (isChemicalFormula)
                     {
                         yield return new ChemicalFormulaFragment(type, i, formula, this);
@@ -1150,7 +1150,7 @@ namespace Proteomics
 
             if (_modifications == null)
             {
-                _modifications = new IHasMass[Length + 2];
+                 _modifications = new IHasMass[Length + 2];
             }
 
             IHasMass oldMod = _modifications[index]; // Get the mod at the index, if present

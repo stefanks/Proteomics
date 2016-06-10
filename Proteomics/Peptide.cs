@@ -101,17 +101,18 @@ namespace Proteomics
 
         public IEnumerable<Peptide> GenerateIsotopologues()
         {
+            Console.WriteLine("In GenerateIsotopologues");
             // Get all the modifications that are isotopologues
-            var isotopologues = GetUniqueModifications<Isotopologue>().ToArray();
+            var isotopologues = GetUniqueModifications<ModificationWithMultiplePossibilities>().ToArray();
 
-            // Base condition, no more isotopologues to make, so just return
+             // Base condition, no more isotopologues to make, so just return
             if (isotopologues.Length < 1)
             {
                 yield break;
             }
 
             // Grab the the first isotopologue
-            Isotopologue isotopologue = isotopologues[0];
+            ModificationWithMultiplePossibilities isotopologue = isotopologues[0];
 
             // Loop over each modification in the isotopologue
             foreach (Modification mod in isotopologue)

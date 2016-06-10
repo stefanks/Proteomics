@@ -555,9 +555,19 @@ namespace Test
         public void GenerateIsotopologues()
         {
             Peptide pep = new Peptide("DERLEK");
-            ChemicalFormulaModification mod = new ChemicalFormulaModification("O", ModificationSites.E);
-            pep.SetModification(mod);
-            var a = pep.GenerateIsotopologues();
+            var i = new ModificationWithMultiplePossibilities("My Iso Mod", ModificationSites.E);
+            i.AddModification(new Modification(1, "My Mod1a", ModificationSites.E));
+            i.AddModification(new Modification(2, "My Mod2b", ModificationSites.E));
+            pep.SetModification(i);
+            var i2 = new ModificationWithMultiplePossibilities("My Iso Mod2", ModificationSites.R);
+            i2.AddModification(new Modification(1, "My Mod2a", ModificationSites.R));
+            i2.AddModification(new Modification(2, "My Mod2b", ModificationSites.R));
+            i2.AddModification(new Modification(3, "My Mod2c", ModificationSites.R));
+            pep.SetModification(i2);
+            Console.WriteLine("Before GenerateIsotopologues");
+            var a = pep.GenerateIsotopologues().ToArray();
+            // Only 6 and not 12, because in the first modification, it is one choice that is substituted across all modification sites
+            Assert.AreEqual(6, a.Count());
         }
 
         [Test]

@@ -24,7 +24,7 @@ using System.Linq;
 
 namespace Proteomics
 {
-    public class Isotopologue : Modification, IHasMass, IEnumerable<Modification>
+    public class ModificationWithMultiplePossibilities : Modification, IHasMass, IEnumerable<Modification>
     {
         private readonly SortedList<double, Modification> _modifications;
 
@@ -37,16 +37,8 @@ namespace Proteomics
         {
             get { return _modifications.Count; }
         }
-
-        public Isotopologue(string name, Modification modification)
-            : base(modification.MonoisotopicMass, name)
-        {
-            _modifications = new SortedList<double, Modification>();
-            Sites = modification.Sites;
-            AddModification(modification);
-        }
-
-        public Isotopologue(string name, ModificationSites sites = ModificationSites.None)
+        
+        public ModificationWithMultiplePossibilities(string name, ModificationSites sites = ModificationSites.None)
             : base(0, name, sites)
         {
             _modifications = new SortedList<double, Modification>();
@@ -56,7 +48,7 @@ namespace Proteomics
         {
             if (!Sites.ContainsSite(modification.Sites))
             {
-                throw new ArgumentException("Unable to add a modification to an isotopologue with different modification sites.");
+                throw new ArgumentException("Unable to add a modification with sites other than " + Sites);
             }
             _modifications.Add(modification.MonoisotopicMass, modification);
             MonoisotopicMass = _modifications.Keys.Average();
