@@ -24,7 +24,7 @@ using System.Linq;
 
 namespace Proteomics
 {
-    public class ModificationWithMultiplePossibilities : Modification, IHasMass, IEnumerable<Modification>
+    public class ModificationWithMultiplePossibilities : Modification, IEnumerable<Modification>
     {
         private readonly SortedList<double, Modification> _modifications;
 
@@ -44,15 +44,12 @@ namespace Proteomics
             _modifications = new SortedList<double, Modification>();
         }
 
-        public Modification AddModification(Modification modification)
+        public void AddModification(Modification modification)
         {
             if (!Sites.ContainsSite(modification.Sites))
-            {
                 throw new ArgumentException("Unable to add a modification with sites other than " + Sites);
-            }
+
             _modifications.Add(modification.MonoisotopicMass, modification);
-            MonoisotopicMass = _modifications.Keys.Average();
-            return modification;
         }
 
         public bool Contains(Modification modification)
