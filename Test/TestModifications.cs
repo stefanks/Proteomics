@@ -58,16 +58,16 @@ namespace Test
             var a = ModificationSites.A | ModificationSites.E;
             var b = a.Set('C');
             Assert.AreEqual(ModificationSites.A | ModificationSites.E | ModificationSites.C, b);
-    
+
         }
-        
+
         [Test]
         public void ModificationSitesTest2()
         {
             // Empty modification, has no name and by default has Sites = ModificationSites.Any
             var a = ModificationSites.A | ModificationSites.E;
-            var b =a.Set(AminoAcid.GetResidue("D"));
-            Assert.AreEqual(ModificationSites.A | ModificationSites.E |ModificationSites.D, b);
+            var b = a.Set(AminoAcid.GetResidue("D"));
+            Assert.AreEqual(ModificationSites.A | ModificationSites.E | ModificationSites.D, b);
         }
 
         [Test]
@@ -94,17 +94,30 @@ namespace Test
             Assert.IsTrue(a.Contains(new Modification(2, "Mod2")));
             IHasMass[] myArray = new IHasMass[4];
             a.CopyTo(myArray, 1);
-            Assert.AreEqual(3, myArray.Sum(b=>b==null?0:1));
+            Assert.AreEqual(3, myArray.Sum(b => b == null ? 0 : 1));
             Assert.AreEqual(3, a.Count());
             Assert.IsFalse(a.IsReadOnly);
             a.Remove(new Modification(2, "Mod2"));
             Assert.AreEqual("Mod1 | Mod3", a.ToString());
             double ok = 0;
             foreach (var b in a)
-                ok+=b.MonoisotopicMass;
-            Assert.AreEqual(4,ok);
+                ok += b.MonoisotopicMass;
+            Assert.AreEqual(4, ok);
             a.Clear();
             Assert.AreEqual("", a.ToString());
+        }
+
+        [Test]
+        public void ModificationWithMultiplePossibilitiesTest()
+        {
+            var m = new ModificationWithMultiplePossibilities("My Iso Mod", ModificationSites.E);
+            m.AddModification(new Modification(1, "My Mod1a", ModificationSites.E));
+            m.AddModification(new Modification(2, "My Mod2b", ModificationSites.E));
+            Assert.AreEqual(2, m.Count);
+            Assert.AreEqual("My Mod2b", m[1].Name);
+            Assert.Throws<ArgumentException>(()=> { m.AddModification(new Modification(1, "gg", ModificationSites.R)); }, "Unable to add a modification with sites other than ModificationSites.E");
+            Assert.IsTrue(m.Contains(new Modification(2, "My Mod2b", ModificationSites.E)));
+
         }
     }
 }
