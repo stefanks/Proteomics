@@ -36,7 +36,7 @@ namespace Proteomics
         public int EndResidue { get; set; }
 
         /// <summary>
-        /// The amino acid polymer this peptide came from
+        /// The amino acid polymer this peptide came from. Could be null
         /// </summary>
         public AminoAcidPolymer Parent { get; set; }
 
@@ -51,6 +51,11 @@ namespace Proteomics
         public AminoAcid NextAminoAcid { get; set; }
 
         public Peptide()
+        {
+
+        }
+
+        public Peptide(string sequence):base(sequence)
         {
         }
 
@@ -76,36 +81,14 @@ namespace Proteomics
             PreviousAminoAcid = aminoAcidPolymer.GetResidue(StartResidue - 1);
             NextAminoAcid = aminoAcidPolymer.GetResidue(EndResidue + 1);
         }
-
-        public Peptide(string sequence)
-            : this(sequence, null, 0)
-        {
-        }
-        
-        public Peptide(string sequence, AminoAcidPolymer parent, int startResidue=0)
-            : base(sequence)
-        {
-            Parent = parent;
-            StartResidue = startResidue;
-            EndResidue = startResidue + Length - 1;
-
-            if (parent != null)
-            {
-                if (StartResidue > 0)
-                    PreviousAminoAcid = parent.AminoAcids[StartResidue - 1];
-
-                if (EndResidue < parent.Length - 1)
-                    NextAminoAcid = parent.AminoAcids[EndResidue + 1];
-            }
-        }
-
+                
         public IEnumerable<Peptide> GenerateIsotopologues()
         {
             Console.WriteLine("In GenerateIsotopologues");
             // Get all the modifications that are isotopologues
             var isotopologues = GetUniqueModifications<ModificationWithMultiplePossibilities>().ToArray();
 
-             // Base condition, no more isotopologues to make, so just return
+            // Base condition, no more isotopologues to make, so just return
             if (isotopologues.Length < 1)
             {
                 yield break;
@@ -139,7 +122,7 @@ namespace Proteomics
                 }
             }
         }
-        
+
 
         public Peptide GetSubPeptide(int firstResidue, int length)
         {
@@ -150,47 +133,7 @@ namespace Proteomics
         {
             return base.Equals(other);
         }
-        
+
     }
 
-    internal class ModificationArrayComparer : IEqualityComparer<Modification[]>
-    {
-        public bool Equals(Modification[] x, Modification[] y)
-        {
-            int length = x.Length;
-            if (length != y.Length)
-                return false;
-            for (int i = 0; i < length; i++)
-            {
-                Modification a = x[i];
-                Modification b = y[i];
-                if (a == null)
-                {
-                    if (b != null)
-                        return false;
-                }
-                else
-                {
-                    if (!a.Equals(b))
-                        return false;
-                }
-            }
-            return true;
-        }
-
-        public int GetHashCode(Modification[] obj)
-        {
-            unchecked
-            {
-                const int p = 16777619;
-                int hash = obj.Where(t => t != null).Aggregate((int)2166136261, (current, t) => (current ^ t.GetHashCode()) * p);
-                hash += hash << 13;
-                hash ^= hash >> 7;
-                hash += hash << 3;
-                hash ^= hash >> 17;
-                hash += hash << 5;
-                return hash;
-            }
-        }
-    }
 }
