@@ -81,7 +81,9 @@ namespace Test
         [Test]
         public void ChemicalFormulaFragment()
         {
-            _mockPeptideEveryAminoAcid.Fragment(FragmentTypes.b, true);
+            var a = _mockPeptideEveryAminoAcid.Fragment(FragmentTypes.b, true);
+            // Can break in 19 places
+            Assert.AreEqual(19, a.Count());
         }
     }
 }
