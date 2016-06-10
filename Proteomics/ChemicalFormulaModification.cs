@@ -30,7 +30,7 @@ namespace Proteomics
         public ChemicalFormulaModification(string chemicalFormula, ModificationSites sites = ModificationSites.Any)
             : this(new ChemicalFormula(chemicalFormula), "", sites)
         {
-            Name = thisChemicalFormula.ToString();
+            Name = thisChemicalFormula.Formula;
         }
 
         public ChemicalFormulaModification(string chemicalFormula, string name, ModificationSites sites = ModificationSites.Any)

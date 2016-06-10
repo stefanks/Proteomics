@@ -197,7 +197,7 @@ namespace Test
         {
             ChemicalFormula formula = new ChemicalFormula("Fe");
             var Asparagine = new AminoAcid("Asparagine", 'N', "Asn", "C4H6N2O2", ModificationSites.N);
-            _mockPeptideEveryAminoAcid.SetModification(formula, Asparagine);
+            _mockPeptideEveryAminoAcid.SetModification(new ChemicalFormulaModification(formula), Asparagine);
 
             Assert.AreEqual("ACDEFGHIKLMN[Fe]PQRSTVWY", _mockPeptideEveryAminoAcid.ToString());
         }
@@ -206,7 +206,7 @@ namespace Test
         public void SetAminoAcidModificationStronglyTyped()
         {
             ChemicalFormula formula = new ChemicalFormula("Fe");
-            _mockPeptideEveryAminoAcid.SetModification(formula, ModificationSites.N);
+            _mockPeptideEveryAminoAcid.SetModification(new ChemicalFormulaModification(formula), ModificationSites.N);
 
             Assert.AreEqual("ACDEFGHIKLMN[Fe]PQRSTVWY", _mockPeptideEveryAminoAcid.ToString());
         }
@@ -215,7 +215,7 @@ namespace Test
         public void SetAminoAcidModificationStronglyTypedMultipleLocations()
         {
             ChemicalFormula formula = new ChemicalFormula("Fe");
-            _mockPeptideEveryAminoAcid.SetModification(formula, ModificationSites.N | ModificationSites.F | ModificationSites.V);
+            _mockPeptideEveryAminoAcid.SetModification(new ChemicalFormulaModification(formula), ModificationSites.N | ModificationSites.F | ModificationSites.V);
 
             Assert.AreEqual("ACDEF[Fe]GHIKLMN[Fe]PQRSTV[Fe]WY", _mockPeptideEveryAminoAcid.ToString());
         }
@@ -224,7 +224,7 @@ namespace Test
         public void SetAminoAcidModificationStronglyTypedAny()
         {
             ChemicalFormula formula = new ChemicalFormula("Fe");
-            _mockPeptideEveryAminoAcid.SetModification(formula, ModificationSites.Any);
+            _mockPeptideEveryAminoAcid.SetModification(new ChemicalFormulaModification(formula), ModificationSites.Any);
 
             Assert.AreEqual("ACDEFGHIKLMNPQRSTVWY", _mockPeptideEveryAminoAcid.ToString());
         }
@@ -233,7 +233,7 @@ namespace Test
         public void SetAminoAcidModificationStronglyTypedAll()
         {
             ChemicalFormula formula = new ChemicalFormula("Fe");
-            _mockPeptideEveryAminoAcid.SetModification(formula, ModificationSites.All);
+            _mockPeptideEveryAminoAcid.SetModification(new ChemicalFormulaModification(formula), ModificationSites.All);
 
             Assert.AreEqual("[Fe]-A[Fe]C[Fe]D[Fe]E[Fe]F[Fe]G[Fe]H[Fe]I[Fe]K[Fe]L[Fe]M[Fe]N[Fe]P[Fe]Q[Fe]R[Fe]S[Fe]T[Fe]V[Fe]W[Fe]Y[Fe]-[Fe]", _mockPeptideEveryAminoAcid.ToString());
         }
@@ -242,7 +242,7 @@ namespace Test
         public void SetAminoAcidModificationStronglyTypedNone()
         {
             ChemicalFormula formula = new ChemicalFormula("Fe");
-            _mockPeptideEveryAminoAcid.SetModification(formula, ModificationSites.None);
+            _mockPeptideEveryAminoAcid.SetModification(new ChemicalFormulaModification(formula), ModificationSites.None);
 
             Assert.AreEqual("ACDEFGHIKLMNPQRSTVWY", _mockPeptideEveryAminoAcid.ToString());
         }
@@ -251,7 +251,7 @@ namespace Test
         public void SetAminoAcidModificationStronglyTypedTermini()
         {
             ChemicalFormula formula = new ChemicalFormula("Fe");
-            _mockPeptideEveryAminoAcid.SetModification(formula, ModificationSites.NPep | ModificationSites.PepC);
+            _mockPeptideEveryAminoAcid.SetModification(new ChemicalFormulaModification(formula), ModificationSites.NPep | ModificationSites.PepC);
 
             Assert.AreEqual("[Fe]-ACDEFGHIKLMNPQRSTVWY-[Fe]", _mockPeptideEveryAminoAcid.ToString());
         }
@@ -260,7 +260,7 @@ namespace Test
         public void SetAminoAcidCharacterModification()
         {
             ChemicalFormula formula = new ChemicalFormula("Fe");
-            _mockPeptideEveryAminoAcid.SetModification(formula, 'D');
+            _mockPeptideEveryAminoAcid.SetModification(new ChemicalFormulaModification(formula), 'D');
 
             Assert.AreEqual("ACD[Fe]EFGHIKLMNPQRSTVWY", _mockPeptideEveryAminoAcid.ToString());
         }
@@ -269,7 +269,7 @@ namespace Test
         public void SetResiduePositionModification()
         {
             ChemicalFormula formula = new ChemicalFormula("Fe");
-            _mockPeptideEveryAminoAcid.SetModification(formula, 5);
+            _mockPeptideEveryAminoAcid.SetModification(new ChemicalFormulaModification(formula), 5);
 
             Assert.AreEqual("ACDEF[Fe]GHIKLMNPQRSTVWY", _mockPeptideEveryAminoAcid.ToString());
         }
@@ -279,7 +279,7 @@ namespace Test
         {
             ChemicalFormula formula = new ChemicalFormula("Fe");
 
-            Assert.That(() => _mockPeptideEveryAminoAcid.SetModification(formula, 25),
+            Assert.That(() => _mockPeptideEveryAminoAcid.SetModification(new ChemicalFormulaModification(formula), 25),
                         Throws.TypeOf<IndexOutOfRangeException>());
         }
 
@@ -290,7 +290,7 @@ namespace Test
 
 
             Assert.That(() =>
-            _mockPeptideEveryAminoAcid.SetModification(formula, 0),
+            _mockPeptideEveryAminoAcid.SetModification(new ChemicalFormulaModification(formula), 0),
                         Throws.TypeOf<IndexOutOfRangeException>());
         }
 
@@ -298,7 +298,7 @@ namespace Test
         public void SetCTerminusModStringRepresentation()
         {
             ChemicalFormula formula = new ChemicalFormula("Fe");
-            _mockPeptideEveryAminoAcid.SetModification(formula, Terminus.C);
+            _mockPeptideEveryAminoAcid.SetModification(new ChemicalFormulaModification(formula), Terminus.C);
 
             Assert.AreEqual("ACDEFGHIKLMNPQRSTVWY-[Fe]", _mockPeptideEveryAminoAcid.ToString());
         }
@@ -315,8 +315,8 @@ namespace Test
         [Test]
         public void SetNAndCTerminusMod()
         {
-            _mockPeptideEveryAminoAcid.SetModification(new ChemicalFormula("Fe"), Terminus.C);
-            _mockPeptideEveryAminoAcid.SetModification(new ChemicalFormula("H2NO"), Terminus.N);
+            _mockPeptideEveryAminoAcid.SetModification(new ChemicalFormulaModification("Fe"), Terminus.C);
+            _mockPeptideEveryAminoAcid.SetModification(new ChemicalFormulaModification("H2NO"), Terminus.N);
 
             Assert.AreEqual("[H2NO]-ACDEFGHIKLMNPQRSTVWY-[Fe]", _mockPeptideEveryAminoAcid.ToString());
         }
@@ -324,7 +324,7 @@ namespace Test
         [Test]
         public void SetSameNAndCTerminusMod()
         {
-            _mockPeptideEveryAminoAcid.SetModification(new ChemicalFormula("Fe"), Terminus.C | Terminus.N);
+            _mockPeptideEveryAminoAcid.SetModification(new ChemicalFormulaModification("Fe"), Terminus.C | Terminus.N);
 
             Assert.AreEqual("[Fe]-ACDEFGHIKLMNPQRSTVWY-[Fe]", _mockPeptideEveryAminoAcid.ToString());
         }
@@ -333,7 +333,7 @@ namespace Test
         public void ClearNTerminusMod()
         {
             ChemicalFormula formula = new ChemicalFormula("Fe");
-            _mockPeptideEveryAminoAcid.SetModification(formula, Terminus.N);
+            _mockPeptideEveryAminoAcid.SetModification(new ChemicalFormulaModification(formula), Terminus.N);
 
             _mockPeptideEveryAminoAcid.ClearModifications(Terminus.N);
 
@@ -344,7 +344,7 @@ namespace Test
         public void ClearCTerminusMod()
         {
             ChemicalFormula formula = new ChemicalFormula("Fe");
-            _mockPeptideEveryAminoAcid.SetModification(formula, Terminus.C);
+            _mockPeptideEveryAminoAcid.SetModification(new ChemicalFormulaModification(formula), Terminus.C);
 
             _mockPeptideEveryAminoAcid.ClearModifications(Terminus.C);
 
@@ -355,7 +355,7 @@ namespace Test
         public void ClearAllMods()
         {
             ChemicalFormula formula = new ChemicalFormula("Fe");
-            _mockPeptideEveryAminoAcid.SetModification(formula, ModificationSites.All);
+            _mockPeptideEveryAminoAcid.SetModification(new ChemicalFormulaModification(formula), ModificationSites.All);
 
             _mockPeptideEveryAminoAcid.ClearModifications();
 
@@ -420,7 +420,7 @@ namespace Test
         {
             Peptide pepA = new Peptide("DEREK");
             Peptide pepB = new Peptide("DEREK");
-            pepB.SetModification(new ChemicalFormula("H2O"), 'R');
+            pepB.SetModification(new ChemicalFormulaModification("H2O"), 'R');
 
             Assert.AreNotEqual(pepA, pepB);
         }
@@ -462,7 +462,7 @@ namespace Test
         public void PeptideCloneWithModification()
         {
             Peptide pepA = new Peptide("DEREK");
-            pepA.SetModification(new ChemicalFormula("H2O"), 'R');
+            pepA.SetModification(new ChemicalFormulaModification("H2O"), 'R');
             Peptide pepB = new Peptide(pepA);
 
             Assert.AreEqual(pepB, pepA);
@@ -499,11 +499,11 @@ namespace Test
         public void PeptideParitalCloneInternalWithCTerminusModification()
         {
             Peptide pepA = new Peptide("DEREK");
-            pepA.SetModification(new ChemicalFormula("H2O"), Terminus.C);
+            pepA.SetModification(new ChemicalFormulaModification("H2O"), Terminus.C);
             Peptide pepB = new Peptide(pepA, 2, 3);
 
             Peptide pepC = new Peptide("REK");
-            pepC.SetModification(new ChemicalFormula("H2O"), Terminus.C);
+            pepC.SetModification(new ChemicalFormulaModification("H2O"), Terminus.C);
 
             Assert.AreEqual(pepC, pepB);
         }
