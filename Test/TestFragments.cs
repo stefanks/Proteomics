@@ -78,5 +78,10 @@ namespace Test
             Assert.IsTrue(fragmentEnd.GetModifications().SequenceEqual(new List<Modification>() { new Modification(4, "mod4", ModificationSites.Y) }));
         }
 
+        [Test]
+        public void ChemicalFormulaFragment()
+        {
+            _mockPeptideEveryAminoAcid.Fragment(FragmentTypes.b, true);
+        }
     }
 }
