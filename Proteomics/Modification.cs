@@ -106,7 +106,8 @@ namespace Proteomics
         }
 
         public bool Equals(Modification other)
-        {   if (ReferenceEquals(this, other))
+        {
+            if (ReferenceEquals(this, other))
                 return true;
 
             if (!this.MassEquals(other))
