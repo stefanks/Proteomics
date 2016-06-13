@@ -27,7 +27,7 @@ namespace Proteomics
         public static double GetSequenceCoverageFraction(this AminoAcidPolymer baseSequence, IEnumerable<AminoAcidPolymer> sequences, bool useLeucineSequence = true)
         {
             int[] counts = baseSequence.GetSequenceCoverage(sequences, useLeucineSequence);
-            return ((double) counts.Count(x => x > 0))/baseSequence.Length;
+            return ((double)counts.Count(x => x > 0)) / baseSequence.Length;
         }
 
         public static int[] GetSequenceCoverage(this AminoAcidPolymer baseSequence, IEnumerable<AminoAcidPolymer> sequences, bool useLeucineSequence = true)

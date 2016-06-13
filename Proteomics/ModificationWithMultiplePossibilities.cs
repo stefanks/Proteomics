@@ -16,11 +16,9 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with Proteomics. If not, see <http://www.gnu.org/licenses/>.
 
-using Chemistry;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Proteomics
 {
@@ -37,7 +35,7 @@ namespace Proteomics
         {
             get { return _modifications.Count; }
         }
-        
+
         public ModificationWithMultiplePossibilities(string name, ModificationSites sites = ModificationSites.None)
             : base(0, name, sites)
         {

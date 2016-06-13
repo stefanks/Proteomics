@@ -16,7 +16,6 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with Proteomics. If not, see <http://www.gnu.org/licenses/>.
 
-using MathNet.Numerics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,7 +54,7 @@ namespace Proteomics
 
         }
 
-        public Peptide(string sequence):base(sequence)
+        public Peptide(string sequence) : base(sequence)
         {
         }
 
@@ -81,7 +80,7 @@ namespace Proteomics
             PreviousAminoAcid = aminoAcidPolymer.GetResidue(StartResidue - 1);
             NextAminoAcid = aminoAcidPolymer.GetResidue(EndResidue + 1);
         }
-                
+
         public IEnumerable<Peptide> GenerateIsotopologues()
         {
             Console.WriteLine("In GenerateIsotopologues");

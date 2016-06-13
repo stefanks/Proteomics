@@ -30,7 +30,7 @@ namespace Proteomics
             Array.Copy(data, index, result, 0, length);
             return result;
         }
-        
+
         /// <summary>
         /// Checks if two collections are equivalent, regardless of the order of their contents
         /// </summary>
