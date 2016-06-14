@@ -1218,17 +1218,20 @@ namespace Proteomics
                         modSb.Clear();
                         IHasMass modification;
                         double mass;
-                        if (ChemicalFormula.IsValidChemicalFormula(modString))
+                        try
                         {
                             modification = new ChemicalFormulaModification(modString);
                         }
-                        else if (double.TryParse(modString, out mass))
+                        catch (FormatException)
                         {
-                            modification = new ModWithOnlyMass(mass);
-                        }
-                        else
-                        {
-                            throw new ArgumentException("Unable to correctly parse the following modification: " + modString);
+                            if (double.TryParse(modString, out mass))
+                            {
+                                modification = new ModWithOnlyMass(mass);
+                            }
+                            else
+                            {
+                                throw new ArgumentException("Unable to correctly parse the following modification: " + modString);
+                            }
                         }
 
                         monoMass += modification.MonoisotopicMass;
