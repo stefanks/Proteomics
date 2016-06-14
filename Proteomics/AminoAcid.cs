@@ -51,9 +51,6 @@ namespace Proteomics
 
         public static bool TryGetResidue(char letter, out AminoAcid residue)
         {
-            residue = null;
-            if (letter > 'z' || letter < 0)
-                return false;
             residue = ResiduesByLetter[letter];
             return residue != null;
         }
