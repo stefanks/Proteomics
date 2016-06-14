@@ -552,5 +552,15 @@ namespace Test
             myList.Add(pepAb);
             Assert.AreEqual(0.5,pepA.GetSequenceCoverageFraction(myList));
         }
+
+
+        [Test]
+        public void TerminusModification()
+        {
+            Peptide pepA = new Peptide("DERLEK");
+            pepA.AddModification(new ChemicalFormulaModification("SO"), Terminus.N);
+            Console.WriteLine(pepA);
+            Assert.AreEqual("[OS]-DERLEK",pepA.ToString());
+        }
     }
 }
