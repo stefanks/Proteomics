@@ -58,7 +58,7 @@
     <Compile Include="Util\ClassExtensions.cs" />
     <Compile Include="Fragment.cs" />
     <Compile Include="FragmentTypes.cs" />
-    <Compile Include="Interfaces\AminoAcidPolymerExtensions.cs" />
+    <Compile Include="Util\AminoAcidPolymerExtensions.cs" />
     <Compile Include="Interfaces\IProtease.cs" />
     <Compile Include="ModificationWithMultiplePossibilities.cs" />
     <Compile Include="Modification.cs" />

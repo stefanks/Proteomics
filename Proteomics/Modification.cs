@@ -99,14 +99,14 @@ namespace Proteomics
 
         public override bool Equals(object obj)
         {
-            if (obj == null)
-                return false;
             Modification modObj = obj as Modification;
             return modObj != null && Equals(modObj);
         }
 
+
         public bool Equals(Modification other)
         {
+            // TODO: Is this enough? Does it guarantee equality?
             if (ReferenceEquals(this, other))
                 return true;
 

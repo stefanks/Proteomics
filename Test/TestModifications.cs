@@ -127,5 +127,15 @@ namespace Test
             Assert.IsFalse(ModificationSites.E.ContainsSite(ModificationSites.None));
             Assert.IsTrue(ModificationSites.None.ContainsSite(ModificationSites.None));
         }
+
+
+
+        [Test]
+        public void ChemicalFormulaModificaiton()
+        {
+            ChemicalFormulaModification a = new ChemicalFormulaModification("OH");
+            ChemicalFormulaModification b = new ChemicalFormulaModification(a);
+            Assert.AreEqual(a, b);
+        }
     }
 }
