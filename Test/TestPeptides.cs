@@ -562,5 +562,36 @@ namespace Test
             Console.WriteLine(pepA);
             Assert.AreEqual("[OS]-DERLEK",pepA.ToString());
         }
+
+        [Test]
+        public void DigestionTest()
+        {
+            IProtease protease = new TestProtease();
+            Assert.AreEqual(6, AminoAcidPolymer.Digest(_mockPeptideEveryAminoAcid, protease).Count());
+        }
+    }
+
+    internal class TestProtease : IProtease
+    {
+        public IEnumerable<int> GetDigestionSites(AminoAcidPolymer aminoAcidSequence)
+        {
+            return GetDigestionSites(aminoAcidSequence.Sequence);
+        }
+
+        public IEnumerable<int> GetDigestionSites(string aminoAcidSequence)
+        {
+            yield return 4;
+            yield return 5;
+        }
+
+        public int MissedCleavages(AminoAcidPolymer aminoAcidSequence)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int MissedCleavages(string sequence)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
