@@ -35,8 +35,8 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Chemistry, Version=1.0.80.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\Chemistry.1.0.80\lib\net451\Chemistry.dll</HintPath>
+    <Reference Include="Chemistry, Version=1.0.101.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\Chemistry.1.0.101\lib\net451\Chemistry.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -69,7 +69,9 @@
     <Compile Include="Terminus.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
