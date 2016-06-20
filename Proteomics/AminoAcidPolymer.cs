@@ -967,10 +967,6 @@ namespace Proteomics
 
         /// <summary>
         /// Gets the chemical formula of this amino acid polymer.
-        /// If a modification attached to this polymer does not
-        /// have a chemical formula, it is not included in the output,
-        /// thus the return chemical formula may not be accurate.
-        /// See <see cref="TryGetChemicalFormula"/> for more details
         /// </summary>
         /// <returns></returns>
         public ChemicalFormula GetChemicalFormula()
@@ -982,10 +978,13 @@ namespace Proteomics
             {
                 for (int i = 0; i < Length + 2; i++)
                 {
+                    if (_modifications[i] == null)
+                        continue;
+
                     IHasChemicalFormula chemMod = _modifications[i] as IHasChemicalFormula;
 
                     if (chemMod == null)
-                        continue;
+                        throw new InvalidCastException("Modification " + _modifications[i] + " does not have a chemical formula!");
 
                     formula.Add(chemMod.thisChemicalFormula);
                 }
@@ -1006,51 +1005,9 @@ namespace Proteomics
             return formula;
         }
 
-        /// <summary>
-        /// Try and get the chemical formula for the whole amino acid polymer. Modifications
-        /// may not always be of IHasChemicalFormula and this method will return false if any
-        /// modification is not a chemical formula
-        /// </summary>
-        /// <param name="formula"></param>
-        /// <returns></returns>
-        public bool TryGetChemicalFormula(out ChemicalFormula formula)
-        {
-            formula = new ChemicalFormula();
-
-            // Handle Modifications
-            if (ContainsModifications())
-            {
-                for (int i = 0; i < Length + 2; i++)
-                {
-                    IHasMass mod;
-                    if ((mod = _modifications[i]) == null)
-                        continue;
-
-                    IHasChemicalFormula chemMod = mod as IHasChemicalFormula;
-                    if (chemMod == null)
-                        return false;
-
-                    formula.Add(chemMod.thisChemicalFormula);
-                }
-            }
-
-            // Handle N-Terminus
-            formula.Add(NTerminus.thisChemicalFormula);
-
-            // Handle C-Terminus
-            formula.Add(CTerminus.thisChemicalFormula);
-
-            // Handle Amino Acid Residues
-            for (int i = 0; i < Length; i++)
-            {
-                formula.Add(_aminoAcids[i].thisChemicalFormula);
-            }
-
-            return true;
-        }
 
         #endregion ChemicalFormula
-        
+
         #region Object
 
         public override string ToString()
@@ -1298,7 +1255,7 @@ namespace Proteomics
         #endregion Private Methods
 
         #region Statics Methods
-        
+
         #region Fragmentation
 
         public static IEnumerable<Fragment> GetSiteDeterminingFragments(AminoAcidPolymer peptideA, AminoAcidPolymer peptideB, FragmentTypes types)
