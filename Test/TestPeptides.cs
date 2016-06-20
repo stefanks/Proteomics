@@ -569,6 +569,12 @@ namespace Test
             IProtease protease = new TestProtease();
             Assert.AreEqual(6, AminoAcidPolymer.Digest(_mockPeptideEveryAminoAcid, protease).Count());
         }
+
+        [Test]
+        public void IsoelectricPointTest()
+        {
+            Assert.AreEqual(5.97, AminoAcidPolymer.CalculateIsoelectricPoint(new Peptide("G"), 0.000001), 0.01);
+        }
     }
 
     internal class TestProtease : IProtease
