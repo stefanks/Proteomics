@@ -25,7 +25,7 @@ using System.Text;
 
 namespace Proteomics
 {
-    public class ModificationCollection : ICollection<IHasMass>, IHasMass, IEquatable<ModificationCollection>
+    public class ModificationCollection : ICollection<IHasMass>, IHasMass, IEquatable<ModificationCollection>, IHasChemicalFormula
     {
         private readonly List<IHasMass> _modifications;
 
@@ -82,6 +82,17 @@ namespace Proteomics
         public bool IsReadOnly
         {
             get { return false; }
+        }
+
+        public ChemicalFormula thisChemicalFormula
+        {
+            get
+            {
+                ChemicalFormula chemicalFormula = new ChemicalFormula();
+                foreach (var ok in _modifications)
+                    chemicalFormula += (ok as IHasChemicalFormula).thisChemicalFormula;
+                return chemicalFormula;
+            }
         }
 
         public bool Remove(IHasMass item)

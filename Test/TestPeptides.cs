@@ -586,6 +586,27 @@ namespace Test
             A.AddModification(a);
             Assert.Throws<InvalidCastException>(() => { A.GetChemicalFormula(); }, "Modification Modification without chemical formula does not have a chemical formula!");
         }
+
+        [Test]
+        public void TestMultipleModificationsAtSingleResidue()
+        {
+            Peptide a = new Peptide("ACDEFGHIKLMNPQRSTVWY");
+            Console.WriteLine(a.Sequence);
+            Console.WriteLine(a.SequenceWithModifications);
+            a.AddModification(new ChemicalFormulaModification("O", ModificationSites.D));
+            a.AddModification(new ChemicalFormulaModification("H", ModificationSites.D));
+            Console.WriteLine(a.Sequence);
+            Console.WriteLine(a.SequenceWithModifications);
+            var products = a.Fragment(FragmentTypes.b | FragmentTypes.y, true);
+            foreach (Fragment fragment in products)
+            {
+                Console.WriteLine(fragment.GetSequence());
+            }
+            foreach (IHasChemicalFormula fragment in products)
+            {
+                Console.WriteLine(fragment.thisChemicalFormula.Formula);
+            }
+        }
     }
 
     internal class TestProtease : IProtease
