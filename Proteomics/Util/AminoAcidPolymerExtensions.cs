@@ -34,16 +34,16 @@ namespace Proteomics
         {
             int[] bits = new int[baseSequence.Length];
 
-            string masterSequence = useLeucineSequence ? baseSequence.GetLeucineSequence() : baseSequence.Sequence;
+            string masterSequence = useLeucineSequence ? baseSequence.LeucineSequence : baseSequence.Sequence;
 
             foreach (AminoAcidPolymer sequence in sequences)
             {
-                string seq = useLeucineSequence ? sequence.GetLeucineSequence() : sequence.Sequence;
+                string seq = useLeucineSequence ? sequence.LeucineSequence : sequence.Sequence;
 
                 int startIndex = 0;
                 while (true)
                 {
-                    int index = masterSequence.IndexOf(seq, startIndex, StringComparison.InvariantCulture);
+                    int index = masterSequence.IndexOf(seq, startIndex, StringComparison.Ordinal);
 
                     if (index < 0)
                     {

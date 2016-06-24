@@ -21,20 +21,20 @@ namespace Proteomics
 {
     public class ChemicalFormulaTerminus : IHasChemicalFormula
     {
-        public ChemicalFormulaTerminus(string v)
+        public ChemicalFormulaTerminus(ChemicalFormula chemicalFormula)
         {
-            thisChemicalFormula = new ChemicalFormula(v);
+            ThisChemicalFormula = chemicalFormula;
         }
 
         public double MonoisotopicMass
         {
             get
             {
-                return thisChemicalFormula.MonoisotopicMass;
+                return ThisChemicalFormula.MonoisotopicMass;
             }
         }
 
-        public ChemicalFormula thisChemicalFormula
+        public ChemicalFormula ThisChemicalFormula
         {
             get; private set;
         }

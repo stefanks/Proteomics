@@ -25,12 +25,12 @@ namespace Proteomics
         /// <summary>
         /// The Chemical Formula of this modifications
         /// </summary>
-        public ChemicalFormula thisChemicalFormula { get; private set; }
+        public ChemicalFormula ThisChemicalFormula { get; private set; }
 
         public ChemicalFormulaModification(string chemicalFormula, ModificationSites sites = ModificationSites.Any)
             : this(new ChemicalFormula(chemicalFormula), "", sites)
         {
-            Name = thisChemicalFormula.Formula;
+            Name = ThisChemicalFormula.Formula;
         }
 
         public ChemicalFormulaModification(string chemicalFormula, string name, ModificationSites sites = ModificationSites.Any)
@@ -41,11 +41,11 @@ namespace Proteomics
         public ChemicalFormulaModification(ChemicalFormula chemicalFormula, string name, ModificationSites sites = ModificationSites.Any)
             : base(chemicalFormula.MonoisotopicMass, name, sites)
         {
-            thisChemicalFormula = chemicalFormula;
+            ThisChemicalFormula = chemicalFormula;
         }
 
         public ChemicalFormulaModification(ChemicalFormulaModification other)
-            : this(new ChemicalFormula(other.thisChemicalFormula), other.Name, other.Sites)
+            : this(new ChemicalFormula(other.ThisChemicalFormula), other.Name, other.Sites)
         {
         }
     }

@@ -16,7 +16,6 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with Proteomics. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -83,9 +82,8 @@ namespace Proteomics
 
         public IEnumerable<Peptide> GenerateIsotopologues()
         {
-            Console.WriteLine("In GenerateIsotopologues");
             // Get all the modifications that are isotopologues
-            var isotopologues = GetUniqueModifications<ModificationWithMultiplePossibilities>().ToArray();
+            var isotopologues = GetUniqueModifications<ModificationWithMultiplePossibilitiesCollection>().ToArray();
 
             // Base condition, no more isotopologues to make, so just return
             if (isotopologues.Length < 1)
@@ -94,7 +92,7 @@ namespace Proteomics
             }
 
             // Grab the the first isotopologue
-            ModificationWithMultiplePossibilities isotopologue = isotopologues[0];
+            ModificationWithMultiplePossibilitiesCollection isotopologue = isotopologues[0];
 
             // Loop over each modification in the isotopologue
             foreach (Modification mod in isotopologue)

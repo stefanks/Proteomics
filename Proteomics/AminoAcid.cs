@@ -25,9 +25,9 @@ namespace Proteomics
 {
     public class AminoAcid : IHasChemicalFormula
     {
-        private static readonly Dictionary<string, AminoAcid> Residues;
+        private static readonly Dictionary<string, AminoAcid> Residues = new Dictionary<string, AminoAcid>(66);
 
-        private static readonly AminoAcid[] ResiduesByLetter;
+        private static readonly AminoAcid[] ResiduesByLetter = new AminoAcid['z' + 1];
 
         /// <summary>
         /// Get the residue based on the residues's symbol
@@ -70,8 +70,6 @@ namespace Proteomics
         /// </summary>
         static AminoAcid()
         {
-            Residues = new Dictionary<string, AminoAcid>(66);
-            ResiduesByLetter = new AminoAcid['z' + 1]; //Make it big enough for all the Upper and Lower characters
             AddResidue("Alanine", 'A', "Ala", "C3H5NO", ModificationSites.A);
             AddResidue("Arginine", 'R', "Arg", "C6H12N4O", ModificationSites.R);
             AddResidue("Asparagine", 'N', "Asn", "C4H6N2O2", ModificationSites.N);
@@ -114,12 +112,12 @@ namespace Proteomics
             Name = name;
             Letter = oneLetterAbbreviation;
             Symbol = threeLetterAbbreviation;
-            thisChemicalFormula = chemicalFormula;
-            MonoisotopicMass = thisChemicalFormula.MonoisotopicMass;
+            ThisChemicalFormula = chemicalFormula;
+            MonoisotopicMass = ThisChemicalFormula.MonoisotopicMass;
             Site = site;
         }
 
-        public ChemicalFormula thisChemicalFormula { get; private set; }
+        public ChemicalFormula ThisChemicalFormula { get; private set; }
 
         public char Letter { get; private set; }
 
