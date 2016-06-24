@@ -44,9 +44,6 @@ namespace Proteomics
         {
             get
             {
-                if (Parent == null)
-                    yield break;
-
                 var mods = Parent.Modifications;
                 if (FragmentType.GetTerminus() == Terminus.N)
                 {
@@ -72,9 +69,6 @@ namespace Proteomics
         {
             get
             {
-                if (Parent == null)
-                    return "";
-
                 string parentSeq = Parent.Sequence;
                 if (FragmentType.GetTerminus() == Terminus.N)
                 {
