@@ -50,7 +50,7 @@ namespace Test
             Peptide pep = new Peptide("G");
             ChemicalFormula formula = new ChemicalFormula("C2H5NO2");
             ChemicalFormula formula2;
-            formula2 = pep.GetChemicalFormula();
+            formula2 = pep.ThisChemicalFormula;
 
             Assert.AreEqual(formula, formula2);
         }
@@ -60,7 +60,7 @@ namespace Test
         {
             ChemicalFormula formula = new ChemicalFormula("C37H66N12O21");
             ChemicalFormula formula2;
-            formula2 = _mockTrypticPeptide.GetChemicalFormula();
+            formula2 = _mockTrypticPeptide.ThisChemicalFormula;
             Assert.AreEqual(formula, formula2);
         }
 
@@ -76,7 +76,7 @@ namespace Test
             Peptide peptide = new Peptide("[C2H3NO]-TTGSSSSSSSK");
             ChemicalFormula formulaA = new ChemicalFormula("C39H69N13O22");
             ChemicalFormula formulaB;
-            formulaB = peptide.GetChemicalFormula();
+            formulaB = peptide.ThisChemicalFormula;
 
             Assert.AreEqual(formulaA, formulaB);
         }
@@ -87,7 +87,7 @@ namespace Test
             Peptide peptide = new Peptide("TTGSSSSSSSK-[C2H3NO]");
             ChemicalFormula formulaA = new ChemicalFormula("C39H69N13O22");
             ChemicalFormula formulaB;
-            formulaB = peptide.GetChemicalFormula();
+            formulaB = peptide.ThisChemicalFormula;
 
             Assert.AreEqual(formulaA, formulaB);
         }
@@ -98,7 +98,7 @@ namespace Test
             Peptide peptide = new Peptide("TTGSSSSSSSK[H2O]-[C2H3NO]");
             ChemicalFormula formulaA = new ChemicalFormula("C39H71N13O23");
             ChemicalFormula formulaB;
-            formulaB = peptide.GetChemicalFormula();
+            formulaB = peptide.ThisChemicalFormula;
 
             Assert.AreEqual(formulaA, formulaB);
         }
@@ -108,7 +108,7 @@ namespace Test
         {
             Peptide peptide = new Peptide("TTGSSSSSSSK[H2O]-[C2H3NO]");
 
-            Assert.AreEqual("TTGSSSSSSSK[H2O]-[C2H3NO]", peptide.SequenceWithModifications);
+            Assert.AreEqual("TTGSSSSSSSK[H2O]-[C2H3NO]", peptide.GetSequenceWithModifications());
         }
 
         [Test]
@@ -117,7 +117,7 @@ namespace Test
             Peptide peptide = new Peptide("[C2H3NO]-TTGSSSSSSSK-[C2H3NO]");
             ChemicalFormula formulaA = new ChemicalFormula("C41H72N14O23");
             ChemicalFormula formulaB;
-            formulaB = peptide.GetChemicalFormula();
+            formulaB = peptide.ThisChemicalFormula;
 
             Assert.AreEqual(formulaA, formulaB);
         }
@@ -269,7 +269,7 @@ namespace Test
         public void SetResiduePositionModificationOutOfRangeUpper()
         {
             Assert.That(() => _mockPeptideEveryAminoAcid.SetModification(new ChemicalFormulaModification("Fe"), 25),
-                        Throws.TypeOf<IndexOutOfRangeException>());
+                        Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         [Test]
@@ -277,7 +277,7 @@ namespace Test
         {
             Assert.That(() =>
             _mockPeptideEveryAminoAcid.SetModification(new ChemicalFormulaModification("Fe"), 0),
-                        Throws.TypeOf<IndexOutOfRangeException>());
+                        Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         [Test]
@@ -376,7 +376,7 @@ namespace Test
             Peptide pepA = new Peptide();
             ChemicalFormula h2O = new ChemicalFormula("H2O");
             ChemicalFormula formulaB;
-            formulaB = pepA.GetChemicalFormula();
+            formulaB = pepA.ThisChemicalFormula;
 
             Assert.AreEqual(h2O, formulaB);
         }
@@ -494,7 +494,7 @@ namespace Test
         public void GetLeucineSequence()
         {
             Peptide pepA = new Peptide("DERIEK");
-            string leuSeq = pepA.GetLeucineSequence();
+            string leuSeq = pepA.LeucineSequence;
 
             Assert.AreEqual("DERLEK", leuSeq);
         }
@@ -504,7 +504,7 @@ namespace Test
         {
             Peptide pepA = new Peptide("DERLEK");
 
-            string leuSeq = pepA.GetLeucineSequence();
+            string leuSeq = pepA.LeucineSequence;
 
             Assert.AreEqual("DERLEK", leuSeq);
         }
@@ -527,11 +527,11 @@ namespace Test
         public void GenerateIsotopologues()
         {
             Peptide pep = new Peptide("DERLEK");
-            var i = new ModificationWithMultiplePossibilities("My Iso Mod", ModificationSites.E);
+            var i = new ModificationWithMultiplePossibilitiesCollection("My Iso Mod", ModificationSites.E);
             i.AddModification(new Modification(1, "My Mod1a", ModificationSites.E));
             i.AddModification(new Modification(2, "My Mod2b", ModificationSites.E));
             pep.SetModification(i);
-            var i2 = new ModificationWithMultiplePossibilities("My Iso Mod2", ModificationSites.R);
+            var i2 = new ModificationWithMultiplePossibilitiesCollection("My Iso Mod2", ModificationSites.R);
             i2.AddModification(new Modification(1, "My Mod2a", ModificationSites.R));
             i2.AddModification(new Modification(2, "My Mod2b", ModificationSites.R));
             i2.AddModification(new Modification(3, "My Mod2c", ModificationSites.R));
@@ -574,8 +574,8 @@ namespace Test
         public void TestChemicalFormula()
         {
             Peptide A = new Peptide("A");
-            ChemicalFormula ok = AminoAcid.GetResidue('A').thisChemicalFormula + AminoAcidPolymer.DefaultCTerminus + AminoAcidPolymer.DefaultNTerminus;
-            Assert.AreEqual(ok, A.GetChemicalFormula());
+            ChemicalFormula ok = AminoAcid.GetResidue('A').ThisChemicalFormula + AminoAcidPolymer.DefaultCTerminus + AminoAcidPolymer.DefaultNTerminus;
+            Assert.AreEqual(ok, A.ThisChemicalFormula);
         }
 
         [Test]
@@ -584,7 +584,7 @@ namespace Test
             Peptide A = new Peptide("A");
             Modification a = new Modification(1, "Modification without chemical formula", ModificationSites.A);
             A.AddModification(a);
-            Assert.Throws<InvalidCastException>(() => { A.GetChemicalFormula(); }, "Modification Modification without chemical formula does not have a chemical formula!");
+            Assert.Throws<InvalidCastException>(() => { var asdf = A.ThisChemicalFormula; }, "Modification Modification without chemical formula does not have a chemical formula!");
         }
 
         [Test]
@@ -592,19 +592,19 @@ namespace Test
         {
             Peptide a = new Peptide("ACDEFGHIKLMNPQRSTVWY");
             Console.WriteLine(a.Sequence);
-            Console.WriteLine(a.SequenceWithModifications);
+            Console.WriteLine(a.GetSequenceWithModifications());
             a.AddModification(new ChemicalFormulaModification("O", ModificationSites.D));
             a.AddModification(new ChemicalFormulaModification("H", ModificationSites.D));
             Console.WriteLine(a.Sequence);
-            Console.WriteLine(a.SequenceWithModifications);
+            Console.WriteLine(a.GetSequenceWithModifications());
             var products = a.Fragment(FragmentTypes.b | FragmentTypes.y, true);
             foreach (Fragment fragment in products)
             {
-                Console.WriteLine(fragment.GetSequence());
+                Console.WriteLine(fragment.Sequence);
             }
             foreach (IHasChemicalFormula fragment in products)
             {
-                Console.WriteLine(fragment.thisChemicalFormula.Formula);
+                Console.WriteLine(fragment.ThisChemicalFormula.Formula);
             }
         }
     }

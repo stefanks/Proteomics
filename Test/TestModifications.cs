@@ -20,7 +20,6 @@ using Chemistry;
 using NUnit.Framework;
 using Proteomics;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Test
@@ -110,12 +109,12 @@ namespace Test
         [Test]
         public void ModificationWithMultiplePossibilitiesTest()
         {
-            var m = new ModificationWithMultiplePossibilities("My Iso Mod", ModificationSites.E);
+            var m = new ModificationWithMultiplePossibilitiesCollection("My Iso Mod", ModificationSites.E);
             m.AddModification(new Modification(1, "My Mod1a", ModificationSites.E));
             m.AddModification(new Modification(2, "My Mod2b", ModificationSites.E));
             Assert.AreEqual(2, m.Count);
             Assert.AreEqual("My Mod2b", m[1].Name);
-            Assert.Throws<ArgumentException>(()=> { m.AddModification(new Modification(1, "gg", ModificationSites.R)); }, "Unable to add a modification with sites other than ModificationSites.E");
+            Assert.Throws<ArgumentException>(() => { m.AddModification(new Modification(1, "gg", ModificationSites.R)); }, "Unable to add a modification with sites other than ModificationSites.E");
             Assert.IsTrue(m.Contains(new Modification(2, "My Mod2b", ModificationSites.E)));
 
         }
@@ -123,7 +122,7 @@ namespace Test
         [Test]
         public void ModificationSitesTest55()
         {
-            Assert.IsTrue( ModificationSites.E.ContainsSite(ModificationSites.Any));
+            Assert.IsTrue(ModificationSites.E.ContainsSite(ModificationSites.Any));
             Assert.IsFalse(ModificationSites.E.ContainsSite(ModificationSites.None));
             Assert.IsTrue(ModificationSites.None.ContainsSite(ModificationSites.None));
         }

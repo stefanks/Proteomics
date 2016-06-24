@@ -22,7 +22,7 @@ using System.Collections.Generic;
 
 namespace Proteomics
 {
-    public class ModificationWithMultiplePossibilities : Modification, IEnumerable<Modification>
+    public class ModificationWithMultiplePossibilitiesCollection : Modification, IEnumerable<Modification>
     {
         private readonly SortedList<double, Modification> _modifications;
 
@@ -36,7 +36,7 @@ namespace Proteomics
             get { return _modifications.Count; }
         }
 
-        public ModificationWithMultiplePossibilities(string name, ModificationSites sites = ModificationSites.None)
+        public ModificationWithMultiplePossibilitiesCollection(string name, ModificationSites sites = ModificationSites.None)
             : base(0, name, sites)
         {
             _modifications = new SortedList<double, Modification>();

@@ -84,13 +84,13 @@ namespace Proteomics
             get { return false; }
         }
 
-        public ChemicalFormula thisChemicalFormula
+        public ChemicalFormula ThisChemicalFormula
         {
             get
             {
                 ChemicalFormula chemicalFormula = new ChemicalFormula();
                 foreach (var ok in _modifications)
-                    chemicalFormula += (ok as IHasChemicalFormula).thisChemicalFormula;
+                    chemicalFormula += (ok as IHasChemicalFormula).ThisChemicalFormula;
                 return chemicalFormula;
             }
         }

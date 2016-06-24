@@ -59,10 +59,10 @@ namespace Proteomics
     public static class ModificationSiteExtensions
     {
         // DOES NOT MODIFY IN PLACE!
-        public static ModificationSites Set(this ModificationSites sites, char aminoacid)
+        public static ModificationSites Set(this ModificationSites sites, char aminoAcid)
         {
             AminoAcid aa;
-            if (AminoAcid.TryGetResidue(aminoacid, out aa))
+            if (AminoAcid.TryGetResidue(aminoAcid, out aa))
             {
                 sites |= aa.Site;
             }

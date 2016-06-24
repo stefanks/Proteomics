@@ -26,7 +26,7 @@ namespace Proteomics
     {
         public Fragment(FragmentTypes type, int number, double monoisotopicMass, AminoAcidPolymer parent)
         {
-            Type = type;
+            FragmentType = type;
             Number = number;
             Parent = parent;
             MonoisotopicMass = monoisotopicMass;
@@ -38,50 +38,56 @@ namespace Proteomics
 
         public AminoAcidPolymer Parent { get; private set; }
 
-        public FragmentTypes Type { get; private set; }
+        public FragmentTypes FragmentType { get; private set; }
 
-        public IEnumerable<IHasMass> GetModifications()
+        public IEnumerable<IHasMass> Modifications
         {
-            if (Parent == null)
-                yield break;
+            get
+            {
+                if (Parent == null)
+                    yield break;
 
-            var mods = Parent.Modifications;
-            if (Type.GetTerminus() == Terminus.N)
-            {
-                for (int i = 0; i <= Number; i++)
+                var mods = Parent.Modifications;
+                if (FragmentType.GetTerminus() == Terminus.N)
                 {
-                    if (mods[i] != null)
-                        yield return mods[i];
+                    for (int i = 0; i <= Number; i++)
+                    {
+                        if (mods[i] != null)
+                            yield return mods[i];
+                    }
                 }
-            }
-            else
-            {
-                int length = Parent.Length + 1;
-                for (int i = length - Number; i <= length; i++)
+                else
                 {
-                    if (mods[i] != null)
-                        yield return mods[i];
+                    int length = Parent.Length + 1;
+                    for (int i = length - Number; i <= length; i++)
+                    {
+                        if (mods[i] != null)
+                            yield return mods[i];
+                    }
                 }
             }
         }
 
-        public string GetSequence()
+        public string Sequence
         {
-            if (Parent == null)
-                return "";
-
-            string parentSeq = Parent.Sequence;
-            if (Type.GetTerminus() == Terminus.N)
+            get
             {
-                return parentSeq.Substring(0, Number);
-            }
+                if (Parent == null)
+                    return "";
 
-            return parentSeq.Substring(parentSeq.Length - Number, Number);
+                string parentSeq = Parent.Sequence;
+                if (FragmentType.GetTerminus() == Terminus.N)
+                {
+                    return parentSeq.Substring(0, Number);
+                }
+
+                return parentSeq.Substring(parentSeq.Length - Number, Number);
+            }
         }
 
         public override string ToString()
         {
-            return string.Format("{0}{1}", Enum.GetName(typeof(FragmentTypes), Type), Number);
+            return string.Format("{0}{1}", Enum.GetName(typeof(FragmentTypes), FragmentType), Number);
         }
 
         public override int GetHashCode()
@@ -90,7 +96,7 @@ namespace Proteomics
             {
                 int hCode = 23;
                 hCode = hCode * 31 + Number;
-                hCode = hCode * 31 + (int)Type;
+                hCode = hCode * 31 + (int)FragmentType;
                 hCode = hCode * 31 + Math.Round(MonoisotopicMass).GetHashCode();
                 return hCode;
             }
@@ -98,7 +104,7 @@ namespace Proteomics
 
         public bool Equals(Fragment other)
         {
-            return Type.Equals(other.Type) && Number.Equals(other.Number) && MonoisotopicMass.MassEquals(other.MonoisotopicMass);
+            return FragmentType.Equals(other.FragmentType) && Number.Equals(other.Number) && MonoisotopicMass.MassEquals(other.MonoisotopicMass);
         }
     }
 }

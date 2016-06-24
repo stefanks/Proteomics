@@ -18,7 +18,6 @@
 
 using Chemistry;
 using System;
-using System.Collections.Generic;
 
 namespace Proteomics
 {
@@ -70,26 +69,6 @@ namespace Proteomics
         public override string ToString()
         {
             return Name;
-        }
-
-        internal IEnumerable<int> GetModifiableSites(AminoAcidPolymer peptide)
-        {
-            if (Sites == ModificationSites.None || peptide == null)
-                yield break;
-
-            if ((Sites & ModificationSites.NPep) == ModificationSites.NPep)
-                yield return 0;
-
-            int i = 1;
-            foreach (AminoAcid aa in peptide.AminoAcids)
-            {
-                if ((Sites & aa.Site) == aa.Site)
-                    yield return i;
-                i++;
-            }
-
-            if ((Sites & ModificationSites.PepC) == ModificationSites.PepC)
-                yield return i;
         }
 
         public override int GetHashCode()

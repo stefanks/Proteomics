@@ -73,9 +73,9 @@ namespace Test
             Fragment fragment = _mockPeptideEveryAminoAcid.Fragment(FragmentTypes.b, 1).First();
             Fragment fragmentEnd = _mockPeptideEveryAminoAcid.Fragment(FragmentTypes.y, 1).Last();
 
-            Assert.IsTrue(fragment.GetModifications().SequenceEqual(new List<Modification>() { new Modification(3, "mod3", ModificationSites.A) }));
-    
-            Assert.IsTrue(fragmentEnd.GetModifications().SequenceEqual(new List<Modification>() { new Modification(4, "mod4", ModificationSites.Y) }));
+            Assert.IsTrue(fragment.Modifications.SequenceEqual(new List<Modification>() { new Modification(3, "mod3", ModificationSites.A) }));
+
+            Assert.IsTrue(fragmentEnd.Modifications.SequenceEqual(new List<Modification>() { new Modification(4, "mod4", ModificationSites.Y) }));
         }
 
         [Test]
@@ -84,11 +84,11 @@ namespace Test
             var a = _mockPeptideEveryAminoAcid.Fragment(FragmentTypes.b, true);
             // Can break in 19 places
             Assert.AreEqual(19, a.Count());
-            Assert.IsTrue(a.Select(b=>b.GetSequence()).Contains("ACDEFG"));
+            Assert.IsTrue(a.Select(b => b.Sequence).Contains("ACDEFG"));
 
             var y = _mockPeptideEveryAminoAcid.Fragment(FragmentTypes.y, true);
             // Can break in 19 places
-            Assert.IsTrue(y.Select(b => b.GetSequence()).Contains("TVWY"));
+            Assert.IsTrue(y.Select(b => b.Sequence).Contains("TVWY"));
         }
     }
 }
