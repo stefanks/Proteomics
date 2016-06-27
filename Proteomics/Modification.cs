@@ -89,7 +89,7 @@ namespace Proteomics
             if (ReferenceEquals(this, other))
                 return true;
 
-            if (!this.MassEquals(other))
+            if (!MonoisotopicMass.MassEquals(other.MonoisotopicMass))
                 return false;
 
             if (!Name.Equals(other.Name))

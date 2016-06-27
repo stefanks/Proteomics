@@ -277,7 +277,7 @@ namespace Proteomics
             IHasMass mod;
 
             // Handle N-Terminus Modification
-            if ((mod = _modifications[0]) != null && !Modification.Empty.Equals(mod) && !mod.MassEquals(0))
+            if ((mod = _modifications[0]) != null && !Modification.Empty.Equals(mod) && !mod.MonoisotopicMass.MassEquals(0))
             {
                 modSeqSb.Append('[');
                 modSeqSb.Append(mod);
@@ -293,7 +293,7 @@ namespace Proteomics
                     modSeqSb.Append(_aminoAcids[i].Letter);
 
                 // Handle Amino Acid Modification (1-based)
-                if ((mod = _modifications[i + 1]) != null && !Modification.Empty.Equals(mod) && !mod.MassEquals(0))
+                if ((mod = _modifications[i + 1]) != null && !Modification.Empty.Equals(mod) && !mod.MonoisotopicMass.MassEquals(0))
                 {
                     modSeqSb.Append('[');
                     modSeqSb.Append(mod);
@@ -302,7 +302,7 @@ namespace Proteomics
             }
 
             // Handle C-Terminus Modification
-            if ((mod = _modifications[Length + 1]) != null && !Modification.Empty.Equals(mod) && !mod.MassEquals(0))
+            if ((mod = _modifications[Length + 1]) != null && !Modification.Empty.Equals(mod) && !mod.MonoisotopicMass.MassEquals(0))
             {
                 modSeqSb.Append("-[");
                 modSeqSb.Append(mod);
@@ -1380,6 +1380,12 @@ namespace Proteomics
             }
         }
 
+
+        public static IEnumerable<int> GetCleavageIndexes(string sequence, IEnumerable<IProtease> proteases)
+        {
+            return GetCleavageIndexes(sequence, proteases, true);
+        }
+
         /// <summary>
         /// Gets the location of all the possible cleavage points for a given sequence and set of proteases
         /// </summary>
@@ -1405,7 +1411,12 @@ namespace Proteomics
             return locations;
         }
 
-        public static IEnumerable<string> Digest(string sequence, IProtease protease, int maxMissedCleavages = 0, int minLength = 1, int maxLength = int.MaxValue, bool methionineInitiator = true, bool semiDigestion = false)
+        public static IEnumerable<string> Digest(string sequence, IProtease protease)
+        {
+            return Digest(sequence, protease, 0, 1, int.MaxValue, true, false);
+        }
+
+        public static IEnumerable<string> Digest(string sequence, IProtease protease, int maxMissedCleavages, int minLength, int maxLength, bool methionineInitiator, bool semiDigestion)
         {
             return Digest(sequence, new[] { protease }, maxMissedCleavages, minLength, maxLength, methionineInitiator, semiDigestion);
         }
