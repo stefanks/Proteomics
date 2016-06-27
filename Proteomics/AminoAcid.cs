@@ -36,6 +36,8 @@ namespace Proteomics
         /// <returns></returns>
         public static AminoAcid GetResidue(string symbol)
         {
+            if (symbol == null)
+                throw new ArgumentNullException("symbol", "Cannot get residue of null parameter");
             return symbol.Length == 1 ? ResiduesByLetter[symbol[0]] : Residues[symbol];
         }
 
@@ -99,7 +101,7 @@ namespace Proteomics
             Residues.Add(residue.Name, residue);
             Residues.Add(residue.Symbol, residue);
             ResiduesByLetter[residue.Letter] = residue;
-            ResiduesByLetter[Char.ToLower(residue.Letter)] = residue;
+            ResiduesByLetter[char.ToLower(residue.Letter)] = residue;
         }
 
         public AminoAcid(string name, char oneLetterAbbreviation, string threeLetterAbbreviation, string chemicalFormula, ModificationSites site)

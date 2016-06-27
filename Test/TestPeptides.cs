@@ -573,8 +573,56 @@ namespace Test
         [Test]
         public void TestChemicalFormula()
         {
+            
+            var ye = AminoAcid.GetResidue('A');
+            Console.WriteLine(ye);
+            Console.WriteLine(ye.Letter);
+            Console.WriteLine(ye.Symbol);
+            Console.WriteLine(ye.ThisChemicalFormula.Formula);
+            
+
+            Console.WriteLine("Creating Peptide:");
             Peptide A = new Peptide("A");
-            ChemicalFormula ok = AminoAcid.GetResidue('A').ThisChemicalFormula + AminoAcidPolymer.DefaultCTerminus + AminoAcidPolymer.DefaultNTerminus;
+            Console.WriteLine("Created Peptide");
+
+            
+            var yeas = AminoAcid.GetResidue('A');
+            Console.WriteLine(yeas);
+            Console.WriteLine(yeas.Letter);
+            Console.WriteLine(yeas.Symbol);
+            Console.WriteLine(yeas.ThisChemicalFormula.Formula);
+            
+
+            
+            ChemicalFormula ok =new ChemicalFormula(AminoAcid.GetResidue('A').ThisChemicalFormula);
+            Console.WriteLine(ok.Formula);
+            ok.Add(AminoAcidPolymer.DefaultCTerminus);
+            Console.WriteLine(ok.Formula);
+            ok.Add(AminoAcidPolymer.DefaultNTerminus);
+            Console.WriteLine(ok.Formula);
+
+            
+            var ye2 = AminoAcid.GetResidue('A');
+            Console.WriteLine(ye2);
+            Console.WriteLine(ye2.Letter);
+            Console.WriteLine(ye2.Symbol);
+            Console.WriteLine(ye2.ThisChemicalFormula.Formula);
+
+
+            Console.WriteLine("End of just alanine stuff:");
+
+            Console.WriteLine("Just alanine stuff:");
+            var ye3 = AminoAcid.GetResidue('A');
+            Console.WriteLine(ye3);
+            Console.WriteLine(ye3.Letter);
+            Console.WriteLine(ye3.Symbol);
+            Console.WriteLine(ye3.ThisChemicalFormula.Formula);
+
+
+            Console.WriteLine("End of just alanine stuff:");
+
+
+
             Assert.AreEqual(ok, A.ThisChemicalFormula);
         }
 

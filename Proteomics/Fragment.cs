@@ -44,9 +44,6 @@ namespace Proteomics
         {
             get
             {
-                if (Parent == null)
-                    yield break;
-
                 var mods = Parent.Modifications;
                 if (FragmentType.GetTerminus() == Terminus.N)
                 {
@@ -72,9 +69,6 @@ namespace Proteomics
         {
             get
             {
-                if (Parent == null)
-                    return "";
-
                 string parentSeq = Parent.Sequence;
                 if (FragmentType.GetTerminus() == Terminus.N)
                 {
@@ -88,18 +82,6 @@ namespace Proteomics
         public override string ToString()
         {
             return string.Format("{0}{1}", Enum.GetName(typeof(FragmentTypes), FragmentType), Number);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                int hCode = 23;
-                hCode = hCode * 31 + Number;
-                hCode = hCode * 31 + (int)FragmentType;
-                hCode = hCode * 31 + Math.Round(MonoisotopicMass).GetHashCode();
-                return hCode;
-            }
         }
 
         public bool Equals(Fragment other)

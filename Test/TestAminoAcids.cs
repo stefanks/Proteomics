@@ -18,6 +18,7 @@
 
 using NUnit.Framework;
 using Proteomics;
+using System;
 
 namespace Test
 {
@@ -40,6 +41,12 @@ namespace Test
             AminoAcid aa = AminoAcid.GetResidue('A');
 
             Assert.AreEqual(aa.Name, "Alanine");
+        }
+
+        [Test]
+        public void GetNullResidue()
+        {
+            Assert.Throws<ArgumentNullException>(() => { AminoAcid.GetResidue(null); });
         }
 
         [Test]

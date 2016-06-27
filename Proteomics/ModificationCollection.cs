@@ -90,7 +90,7 @@ namespace Proteomics
             {
                 ChemicalFormula chemicalFormula = new ChemicalFormula();
                 foreach (var ok in _modifications)
-                    chemicalFormula += (ok as IHasChemicalFormula).ThisChemicalFormula;
+                    chemicalFormula.Add(ok as IHasChemicalFormula);
                 return chemicalFormula;
             }
         }
