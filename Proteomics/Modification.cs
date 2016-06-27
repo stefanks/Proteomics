@@ -27,11 +27,6 @@ namespace Proteomics
     public class Modification : IHasMass, IEquatable<Modification>
     {
         /// <summary>
-        /// The default empty modification
-        /// </summary>
-        public static readonly Modification Empty = new Modification();
-
-        /// <summary>
         /// The name of the modification
         /// </summary>
         public string Name { get; protected set; }

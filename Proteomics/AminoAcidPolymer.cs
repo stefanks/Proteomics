@@ -19,6 +19,7 @@
 using Chemistry;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
@@ -56,11 +57,11 @@ namespace Proteomics
         /// as index 0 and Count - 1 represent the N and C terminus, respectively
         /// </summary>
         private IHasMass[] _modifications;
-        public IHasMass[] Modifications
+        public ReadOnlyCollection<IHasMass> Modifications
         {
             get
             {
-                return _modifications;
+                return new ReadOnlyCollection<IHasMass>(_modifications);
             }
         }
 
@@ -267,7 +268,7 @@ namespace Proteomics
             IHasMass mod;
 
             // Handle N-Terminus Modification
-            if ((mod = _modifications[0]) != null && !Modification.Empty.Equals(mod) && !mod.MonoisotopicMass.MassEquals(0))
+            if ((mod = _modifications[0]) != null && mod.MonoisotopicMass > 0 && !mod.MonoisotopicMass.MassEquals(0))
             {
                 modSeqSb.Append('[');
                 modSeqSb.Append(mod);
@@ -283,7 +284,7 @@ namespace Proteomics
                     modSeqSb.Append(_aminoAcids[i].Letter);
 
                 // Handle Amino Acid Modification (1-based)
-                if ((mod = _modifications[i + 1]) != null && !Modification.Empty.Equals(mod) && !mod.MonoisotopicMass.MassEquals(0))
+                if ((mod = _modifications[i + 1]) != null && mod.MonoisotopicMass > 0 && !mod.MonoisotopicMass.MassEquals(0))
                 {
                     modSeqSb.Append('[');
                     modSeqSb.Append(mod);
@@ -292,7 +293,7 @@ namespace Proteomics
             }
 
             // Handle C-Terminus Modification
-            if ((mod = _modifications[Length + 1]) != null && !Modification.Empty.Equals(mod) && !mod.MonoisotopicMass.MassEquals(0))
+            if ((mod = _modifications[Length + 1]) != null && mod.MonoisotopicMass > 0 && !mod.MonoisotopicMass.MassEquals(0))
             {
                 modSeqSb.Append("-[");
                 modSeqSb.Append(mod);
@@ -997,6 +998,9 @@ namespace Proteomics
                 // Handle Amino Acid Residues
                 for (int i = 0; i < Length; i++)
                 {
+                    Console.WriteLine("_aminoAcids[i] = " + _aminoAcids[i]);
+                    Console.WriteLine("_aminoAcids[i].Letter = " + _aminoAcids[i].Letter);
+                    Console.WriteLine("_aminoAcids[i].Name = " + _aminoAcids[i].Name);
                     formula.Add(_aminoAcids[i].ThisChemicalFormula);
                 }
 
