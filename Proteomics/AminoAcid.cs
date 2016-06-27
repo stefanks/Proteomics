@@ -17,7 +17,6 @@
 // License along with Proteomics. If not, see <http://www.gnu.org/licenses/>.
 
 using Chemistry;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -99,7 +98,7 @@ namespace Proteomics
             Residues.Add(residue.Name, residue);
             Residues.Add(residue.Symbol, residue);
             ResiduesByLetter[residue.Letter] = residue;
-            ResiduesByLetter[Char.ToLower(residue.Letter)] = residue;
+            ResiduesByLetter[char.ToLower(residue.Letter)] = residue;
         }
 
         public AminoAcid(string name, char oneLetterAbbreviation, string threeLetterAbbreviation, string chemicalFormula, ModificationSites site)
