@@ -104,12 +104,20 @@ namespace Proteomics
             ParseSequence(sequence);
         }
 
-        protected AminoAcidPolymer(AminoAcidPolymer aminoAcidPolymer, bool includeModifications = true)
-            : this(aminoAcidPolymer, 0, aminoAcidPolymer.Length, includeModifications)
+        protected AminoAcidPolymer(AminoAcidPolymer aminoAcidPolymer)
+            : this(aminoAcidPolymer, 0, aminoAcidPolymer.Length, true)
         {
         }
 
-        protected AminoAcidPolymer(AminoAcidPolymer aminoAcidPolymer, int firstResidue, int length, bool includeModifications = true)
+        protected AminoAcidPolymer(AminoAcidPolymer aminoAcidPolymer, bool includeModifications)
+            : this(aminoAcidPolymer, 0, aminoAcidPolymer.Length, includeModifications)
+        {
+        }
+        protected AminoAcidPolymer(AminoAcidPolymer aminoAcidPolymer, int firstResidue, int length)
+            : this(aminoAcidPolymer, firstResidue, length, true)
+        {
+        }
+        protected AminoAcidPolymer(AminoAcidPolymer aminoAcidPolymer, int firstResidue, int length, bool includeModifications)
         {
             if (firstResidue < 0 || firstResidue > aminoAcidPolymer.Length)
                 throw new ArgumentOutOfRangeException(string.Format("The first residue index is outside the valid range [{0}-{1}]", 0, aminoAcidPolymer.Length));
@@ -254,7 +262,12 @@ namespace Proteomics
             }
         }
 
-        public string GetSequenceWithModifications(bool leucineSequence = false)
+        public string GetSequenceWithModifications()
+        {
+            return GetSequenceWithModifications(false);
+        }
+
+        public string GetSequenceWithModifications(bool leucineSequence)
         {
             if (_modifications == null)
                 return (leucineSequence) ? LeucineSequence : Sequence;
@@ -379,23 +392,39 @@ namespace Proteomics
             return GetSiteDeterminingFragments(this, other, type);
         }
 
+
+        public IEnumerable<Fragment> Fragment(FragmentTypes types)
+        {
+            return Fragment(types, false);
+        }
+
         /// <summary>
         /// Calculates all the fragments of the types you specify
         /// </summary>
         /// <param name="types"></param>
         /// <param name="calculateChemicalFormula"></param>
         /// <returns></returns>
-        public IEnumerable<Fragment> Fragment(FragmentTypes types, bool calculateChemicalFormula = false)
+        public IEnumerable<Fragment> Fragment(FragmentTypes types, bool calculateChemicalFormula)
         {
             return Fragment(types, 1, Length - 1, calculateChemicalFormula);
         }
 
-        public IEnumerable<Fragment> Fragment(FragmentTypes types, int number, bool calculateChemicalFormula = false)
+
+        public IEnumerable<Fragment> Fragment(FragmentTypes types, int number)
+        {
+            return Fragment(types, number, false);
+        }
+        public IEnumerable<Fragment> Fragment(FragmentTypes types, int number, bool calculateChemicalFormula)
         {
             return Fragment(types, number, number, calculateChemicalFormula);
         }
 
-        public IEnumerable<Fragment> Fragment(FragmentTypes types, int min, int max, bool calculateChemicalFormula = false)
+        public IEnumerable<Fragment> Fragment(FragmentTypes types, int min, int max)
+        {
+            return Fragment(types, min, max, false);
+        }
+
+        public IEnumerable<Fragment> Fragment(FragmentTypes types, int min, int max, bool calculateChemicalFormula)
         {
             if (min > max)
                 throw new ArgumentOutOfRangeException();
@@ -1265,9 +1294,19 @@ namespace Proteomics
 
         #region Digestion
 
-        public static IEnumerable<DigestionPoint> GetDigestionPoints(string sequence, IProtease protease, int maxMissedCleavages = 3, int minLength = 1, int maxLength = int.MaxValue, bool methionineInitiator = true, bool semiDigestion = false)
+        public static IEnumerable<DigestionPoint> GetDigestionPoints(string sequence, IProtease protease)
+        {
+            return GetDigestionPoints(sequence, protease, 3, 1, int.MaxValue, true, false);
+        }
+        public static IEnumerable<DigestionPoint> GetDigestionPoints(string sequence, IProtease protease, int maxMissedCleavages, int minLength, int maxLength, bool methionineInitiator, bool semiDigestion)
         {
             return GetDigestionPoints(sequence, new[] { protease }, maxMissedCleavages, minLength, maxLength, methionineInitiator, semiDigestion);
+        }
+
+
+        public static IEnumerable<DigestionPoint> GetDigestionPoints(string sequence, IEnumerable<IProtease> proteases)
+        {
+            return GetDigestionPoints(sequence, proteases, 3, 1, int.MaxValue, true, false);
         }
 
         /// <summary>
@@ -1281,7 +1320,7 @@ namespace Proteomics
         /// <param name="methionineInitiator"></param>
         /// <param name="semiDigestion"></param>
         /// <returns>A collection of clevage points and the length of the cut (Item1 = index, Item2 = length)</returns>
-        public static IEnumerable<DigestionPoint> GetDigestionPoints(string sequence, IEnumerable<IProtease> proteases, int maxMissedCleavages = 3, int minLength = 1, int maxLength = int.MaxValue, bool methionineInitiator = true, bool semiDigestion = false)
+        public static IEnumerable<DigestionPoint> GetDigestionPoints(string sequence, IEnumerable<IProtease> proteases, int maxMissedCleavages, int minLength, int maxLength, bool methionineInitiator, bool semiDigestion)
         {
             if (maxMissedCleavages < 0)
                 throw new ArgumentOutOfRangeException("maxMissedCleavages", "The maximum number of missed cleavages must be >= 0");
