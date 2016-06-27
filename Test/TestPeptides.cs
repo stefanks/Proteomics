@@ -573,35 +573,35 @@ namespace Test
         [Test]
         public void TestChemicalFormula()
         {
-            
+
             var ye = AminoAcid.GetResidue('A');
             Console.WriteLine(ye);
             Console.WriteLine(ye.Letter);
             Console.WriteLine(ye.Symbol);
             Console.WriteLine(ye.ThisChemicalFormula.Formula);
-            
+
 
             Console.WriteLine("Creating Peptide:");
             Peptide A = new Peptide("A");
             Console.WriteLine("Created Peptide");
 
-            
+
             var yeas = AminoAcid.GetResidue('A');
             Console.WriteLine(yeas);
             Console.WriteLine(yeas.Letter);
             Console.WriteLine(yeas.Symbol);
             Console.WriteLine(yeas.ThisChemicalFormula.Formula);
-            
 
-            
-            ChemicalFormula ok =new ChemicalFormula(AminoAcid.GetResidue('A').ThisChemicalFormula);
+
+
+            ChemicalFormula ok = new ChemicalFormula(AminoAcid.GetResidue('A').ThisChemicalFormula);
             Console.WriteLine(ok.Formula);
-            ok.Add(AminoAcidPolymer.DefaultCTerminus);
+            ok.Add(new ChemicalFormulaTerminus("OH"));
             Console.WriteLine(ok.Formula);
-            ok.Add(AminoAcidPolymer.DefaultNTerminus);
+            ok.Add(new ChemicalFormulaTerminus("H"));
             Console.WriteLine(ok.Formula);
 
-            
+
             var ye2 = AminoAcid.GetResidue('A');
             Console.WriteLine(ye2);
             Console.WriteLine(ye2.Letter);

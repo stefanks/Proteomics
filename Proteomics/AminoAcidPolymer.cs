@@ -32,16 +32,6 @@ namespace Proteomics
         #region Static Properties
 
         /// <summary>
-        /// The default chemical formula of the C terminus (hydroxyl group)
-        /// </summary>
-        public static readonly IHasChemicalFormula DefaultCTerminus = new ChemicalFormulaTerminus("OH");
-
-        /// <summary>
-        /// The default chemical formula of the N terminus (hydrogen)
-        /// </summary>
-        public static readonly IHasChemicalFormula DefaultNTerminus = new ChemicalFormulaTerminus("H");
-
-        /// <summary>
         /// Defines if newly generated Amino Acid Polymers will store the amino acid sequence as a string
         /// or generate the string dynamically. If true, certain operations will be quicker at the cost of
         /// increased memory consumption. Default value is True.
@@ -85,12 +75,12 @@ namespace Proteomics
         #region Constructors
 
         protected AminoAcidPolymer()
-            : this(string.Empty, DefaultNTerminus, DefaultCTerminus)
+            : this(string.Empty, new ChemicalFormulaTerminus("H"), new ChemicalFormulaTerminus("OH"))
         {
         }
 
         protected AminoAcidPolymer(string sequence)
-            : this(sequence, DefaultNTerminus, DefaultCTerminus)
+            : this(sequence, new ChemicalFormulaTerminus("H"), new ChemicalFormulaTerminus("OH"))
         {
         }
 
@@ -130,8 +120,8 @@ namespace Proteomics
             bool isNterm = firstResidue == 0;
             bool isCterm = length + firstResidue == aminoAcidPolymer.Length;
 
-            _nTerminus = isNterm ? aminoAcidPolymer.NTerminus : DefaultNTerminus;
-            _cTerminus = isCterm ? aminoAcidPolymer.CTerminus : DefaultCTerminus;
+            _nTerminus = isNterm ? aminoAcidPolymer.NTerminus : new ChemicalFormulaTerminus("H");
+            _cTerminus = isCterm ? aminoAcidPolymer.CTerminus : new ChemicalFormulaTerminus("OH");
 
             double monoMass = _nTerminus.MonoisotopicMass + _cTerminus.MonoisotopicMass;
 
@@ -1046,8 +1036,8 @@ namespace Proteomics
         {
             if (other == null ||
                 Length != other.Length ||
-                !NTerminus.Equals(other.NTerminus) ||
-                !CTerminus.Equals(other.CTerminus))
+                !NTerminus.ThisChemicalFormula.Equals(other.NTerminus.ThisChemicalFormula) ||
+                !CTerminus.ThisChemicalFormula.Equals(other.CTerminus.ThisChemicalFormula))
                 return false;
 
             bool containsMod = ContainsModifications();
@@ -1393,7 +1383,7 @@ namespace Proteomics
         /// <param name="proteases">The proteases to cleave with</param>
         /// <param name="includeTermini">Include the N and C terminus (-1 and Length + 1)</param>
         /// <returns>A collection of all the sites where the proteases would cleave</returns>
-        public static IEnumerable<int> GetCleavageIndexes(string sequence, IEnumerable<IProtease> proteases, bool includeTermini = true)
+        public static IEnumerable<int> GetCleavageIndexes(string sequence, IEnumerable<IProtease> proteases, bool includeTermini)
         {
             // Combine all the proteases digestion sites
             SortedSet<int> locations = new SortedSet<int>();
@@ -1421,12 +1411,21 @@ namespace Proteomics
             return Digest(sequence, new[] { protease }, maxMissedCleavages, minLength, maxLength, methionineInitiator, semiDigestion);
         }
 
-        public static IEnumerable<string> Digest(string sequence, IEnumerable<IProtease> proteases, int maxMissedCleavages = 3, int minLength = 1, int maxLength = int.MaxValue, bool methionineInitiator = true, bool semiDigestion = false)
+        public static IEnumerable<string> Digest(string sequence, IEnumerable<IProtease> proteases)
+        {
+            return Digest(sequence, proteases, 3, 1, int.MaxValue, true, false);
+        }
+        public static IEnumerable<string> Digest(string sequence, IEnumerable<IProtease> proteases, int maxMissedCleavages, int minLength, int maxLength, bool methionineInitiator, bool semiDigestion)
         {
             return GetDigestionPoints(sequence, proteases, maxMissedCleavages, minLength, maxLength, methionineInitiator, semiDigestion).Select(points => sequence.Substring(points.Index, points.Length));
         }
 
-        public static IEnumerable<string> Digest(AminoAcidPolymer sequence, IProtease protease, int maxMissedCleavages = 3, int minLength = 1, int maxLength = int.MaxValue, bool methionineInitiator = true, bool semiDigestion = false)
+
+        public static IEnumerable<string> Digest(AminoAcidPolymer sequence, IProtease protease)
+        {
+            return Digest(sequence, protease, 3, 1, int.MaxValue, true, false);
+        }
+        public static IEnumerable<string> Digest(AminoAcidPolymer sequence, IProtease protease, int maxMissedCleavages, int minLength, int maxLength, bool methionineInitiator, bool semiDigestion)
         {
             return Digest(sequence.Sequence, new[] { protease }, maxMissedCleavages, minLength, maxLength, methionineInitiator, semiDigestion);
         }

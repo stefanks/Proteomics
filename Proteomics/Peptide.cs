@@ -57,12 +57,17 @@ namespace Proteomics
         {
         }
 
+        public Peptide(AminoAcidPolymer aminoAcidPolymer)
+            : this(aminoAcidPolymer, true)
+        {
+
+        }
         /// <summary>
         /// Create a new peptide based on another amino acid polymer
         /// </summary>
         /// <param name="aminoAcidPolymer">The other amino acid polymer to copy</param>
         /// <param name="includeModifications">Whether to copy the modifications to the new peptide</param>
-        public Peptide(AminoAcidPolymer aminoAcidPolymer, bool includeModifications = true)
+        public Peptide(AminoAcidPolymer aminoAcidPolymer, bool includeModifications)
             : base(aminoAcidPolymer, includeModifications)
         {
             Parent = aminoAcidPolymer;
@@ -70,7 +75,12 @@ namespace Proteomics
             EndResidue = Length - 1;
         }
 
-        public Peptide(AminoAcidPolymer aminoAcidPolymer, int firstResidue, int length, bool includeModifications = true)
+        public Peptide(AminoAcidPolymer aminoAcidPolymer, int firstResidue, int length)
+            : this(aminoAcidPolymer, firstResidue, length, true)
+        {
+
+        }
+        public Peptide(AminoAcidPolymer aminoAcidPolymer, int firstResidue, int length, bool includeModifications)
             : base(aminoAcidPolymer, firstResidue, length, includeModifications)
         {
             Parent = aminoAcidPolymer;

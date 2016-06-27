@@ -59,7 +59,23 @@ namespace Proteomics
         {
         }
 
-        public Modification(double monoMass = 0.0, string name = "", ModificationSites sites = ModificationSites.Any)
+        public Modification()
+            : this(0.0, "", ModificationSites.Any)
+        {
+
+        }
+        public Modification(double monoMass)
+            : this(monoMass, "", ModificationSites.Any)
+        {
+
+        }
+
+        public Modification(double monoMass, string name)
+            : this(monoMass, name, ModificationSites.Any)
+        {
+
+        }
+        public Modification(double monoMass, string name, ModificationSites sites)
         {
             MonoisotopicMass = monoMass;
             Name = name;
