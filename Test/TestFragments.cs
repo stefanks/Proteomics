@@ -89,6 +89,10 @@ namespace Test
             var y = _mockPeptideEveryAminoAcid.Fragment(FragmentTypes.y, true);
             // Can break in 19 places
             Assert.IsTrue(y.Select(b => b.Sequence).Contains("TVWY"));
+
+            var c = _mockPeptideEveryAminoAcid.Fragment(FragmentTypes.b, true);
+
+            Assert.AreEqual(a.First(), c.First());
         }
     }
 }
