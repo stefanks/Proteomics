@@ -415,9 +415,7 @@ namespace Proteomics
                 IHasChemicalFormula terminus = isCTerminal ? CTerminus : NTerminus;
                 monoMass += terminus.MonoisotopicMass;
                 if (isChemicalFormula)
-                {
-                    formula += terminus;
-                }
+                    formula.Add(terminus);
 
                 bool first = true;
                 bool hasMod = _modifications != null;
