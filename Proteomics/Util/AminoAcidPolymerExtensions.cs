@@ -24,13 +24,21 @@ namespace Proteomics
 {
     public static class AminoAcidPolymerExtensions
     {
-        public static double GetSequenceCoverageFraction(this AminoAcidPolymer baseSequence, IEnumerable<AminoAcidPolymer> sequences, bool useLeucineSequence = true)
+        public static double GetSequenceCoverageFraction(this AminoAcidPolymer baseSequence, IEnumerable<AminoAcidPolymer> sequences)
+        {
+            return GetSequenceCoverageFraction(baseSequence, sequences, true);
+        }
+        public static double GetSequenceCoverageFraction(this AminoAcidPolymer baseSequence, IEnumerable<AminoAcidPolymer> sequences, bool useLeucineSequence)
         {
             int[] counts = baseSequence.GetSequenceCoverage(sequences, useLeucineSequence);
             return ((double)counts.Count(x => x > 0)) / baseSequence.Length;
         }
 
-        public static int[] GetSequenceCoverage(this AminoAcidPolymer baseSequence, IEnumerable<AminoAcidPolymer> sequences, bool useLeucineSequence = true)
+        public static int[] GetSequenceCoverage(this AminoAcidPolymer baseSequence, IEnumerable<AminoAcidPolymer> sequences)
+        {
+            return GetSequenceCoverage(baseSequence, sequences, true);
+        }
+        public static int[] GetSequenceCoverage(this AminoAcidPolymer baseSequence, IEnumerable<AminoAcidPolymer> sequences, bool useLeucineSequence)
         {
             int[] bits = new int[baseSequence.Length];
 

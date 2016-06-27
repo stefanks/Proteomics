@@ -40,7 +40,7 @@ namespace Test
         {
             AminoAcid aa = AminoAcid.GetResidue('A');
 
-            Assert.AreEqual(aa.Name, "Alanine");
+            Assert.AreEqual("Alanine", aa.Name);
         }
 
         [Test]
@@ -58,19 +58,11 @@ namespace Test
         }
 
         [Test]
-        public void GetResidueBy3LetterSymbol()
-        {
-            AminoAcid aa = AminoAcid.GetResidue("Ala");
-
-            Assert.AreEqual(aa.Name, "Alanine");
-        }
-
-        [Test]
         public void GetResidueByName()
         {
             AminoAcid aa = AminoAcid.GetResidue("Alanine");
 
-            Assert.AreEqual(aa.Name, "Alanine");
+            Assert.AreEqual("Alanine", aa.Name);
         }
     }
 }

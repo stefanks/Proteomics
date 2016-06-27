@@ -27,11 +27,6 @@ namespace Proteomics
     public class Modification : IHasMass, IEquatable<Modification>
     {
         /// <summary>
-        /// The default empty modification
-        /// </summary>
-        public static readonly Modification Empty = new Modification();
-
-        /// <summary>
         /// The name of the modification
         /// </summary>
         public string Name { get; protected set; }
@@ -59,7 +54,23 @@ namespace Proteomics
         {
         }
 
-        public Modification(double monoMass = 0.0, string name = "", ModificationSites sites = ModificationSites.Any)
+        public Modification()
+            : this(0.0, "", ModificationSites.Any)
+        {
+
+        }
+        public Modification(double monoMass)
+            : this(monoMass, "", ModificationSites.Any)
+        {
+
+        }
+
+        public Modification(double monoMass, string name)
+            : this(monoMass, name, ModificationSites.Any)
+        {
+
+        }
+        public Modification(double monoMass, string name, ModificationSites sites)
         {
             MonoisotopicMass = monoMass;
             Name = name;
@@ -89,7 +100,7 @@ namespace Proteomics
             if (ReferenceEquals(this, other))
                 return true;
 
-            if (!this.MassEquals(other))
+            if (!MonoisotopicMass.MassEquals(other.MonoisotopicMass))
                 return false;
 
             if (!Name.Equals(other.Name))

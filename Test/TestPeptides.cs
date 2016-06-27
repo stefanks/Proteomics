@@ -573,35 +573,35 @@ namespace Test
         [Test]
         public void TestChemicalFormula()
         {
-            
+
             var ye = AminoAcid.GetResidue('A');
             Console.WriteLine(ye);
             Console.WriteLine(ye.Letter);
             Console.WriteLine(ye.Symbol);
             Console.WriteLine(ye.ThisChemicalFormula.Formula);
-            
+
 
             Console.WriteLine("Creating Peptide:");
             Peptide A = new Peptide("A");
             Console.WriteLine("Created Peptide");
 
-            
+
             var yeas = AminoAcid.GetResidue('A');
             Console.WriteLine(yeas);
             Console.WriteLine(yeas.Letter);
             Console.WriteLine(yeas.Symbol);
             Console.WriteLine(yeas.ThisChemicalFormula.Formula);
-            
 
-            
-            ChemicalFormula ok =new ChemicalFormula(AminoAcid.GetResidue('A').ThisChemicalFormula);
+
+
+            ChemicalFormula ok = new ChemicalFormula(AminoAcid.GetResidue('A').ThisChemicalFormula);
             Console.WriteLine(ok.Formula);
-            ok.Add(AminoAcidPolymer.DefaultCTerminus);
+            ok.Add(new ChemicalFormulaTerminus("OH"));
             Console.WriteLine(ok.Formula);
-            ok.Add(AminoAcidPolymer.DefaultNTerminus);
+            ok.Add(new ChemicalFormulaTerminus("H"));
             Console.WriteLine(ok.Formula);
 
-            
+
             var ye2 = AminoAcid.GetResidue('A');
             Console.WriteLine(ye2);
             Console.WriteLine(ye2.Letter);
@@ -655,6 +655,31 @@ namespace Test
                 Console.WriteLine(fragment.ThisChemicalFormula.Formula);
             }
         }
+
+        [Test]
+        public void TestAApolymerOutOfRangeInitialization()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => { new Peptide(_mockPeptideEveryAminoAcid, -1, 0, false); }, "The first residue index is outside the valid range [0-21]");
+            Assert.Throws<ArgumentOutOfRangeException>(() => { new Peptide(_mockPeptideEveryAminoAcid, 100, 0, false); }, "The length + firstResidue value is too large");
+        }
+
+        [Test]
+        public void TestAApolymerContains()
+        {
+            Assert.IsFalse(_mockTrypticPeptide.Contains('A'));
+            Assert.IsTrue(_mockTrypticPeptide.Contains(AminoAcid.GetResidue('T')));
+        }
+
+        [Test]
+        public void TestLeucineSequence()
+        {
+            Assert.AreEqual("ACDEFGHLKLMNPQRSTVWY", _mockPeptideEveryAminoAcid.GetSequenceWithModifications(true));
+            Assert.AreEqual(20, _mockPeptideEveryAminoAcid.ResidueCount());
+            Assert.AreEqual(7, _mockTrypticPeptide.ResidueCount('S'));
+            Assert.AreEqual(7, _mockTrypticPeptide.ResidueCount(AminoAcid.GetResidue('S')));
+            Assert.AreEqual(2, _mockTrypticPeptide.ResidueCount(AminoAcid.GetResidue('S'), 2, 3));
+            Assert.AreEqual(3, _mockTrypticPeptide.ResidueCount('S', 2, 4));
+        }
     }
 
     internal class TestProtease : IProtease
@@ -679,5 +704,6 @@ namespace Test
         {
             throw new NotImplementedException();
         }
+
     }
 }
