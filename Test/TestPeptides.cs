@@ -195,7 +195,7 @@ namespace Test
         [Test]
         public void SetAminoAcidModification()
         {
-            var Asparagine = new AminoAcid("Asparagine", 'N', "Asn", "C4H6N2O2", ModificationSites.N);
+            var Asparagine = AminoAcid.GetResidue("N");
             _mockPeptideEveryAminoAcid.SetModification(new ChemicalFormulaModification("Fe"), Asparagine);
 
             Assert.AreEqual("ACDEFGHIKLMN[Fe]PQRSTVWY", _mockPeptideEveryAminoAcid.ToString());
