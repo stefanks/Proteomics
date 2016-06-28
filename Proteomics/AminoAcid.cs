@@ -19,6 +19,7 @@
 using Chemistry;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Proteomics
 {
@@ -148,7 +149,7 @@ namespace Proteomics
 
         public override string ToString()
         {
-            return string.Format("{0} {1} ({2})", Letter, Symbol, Name);
+            return string.Format(CultureInfo.InvariantCulture, "{0} {1} ({2})", Letter, Symbol, Name);
         }
     }
 }

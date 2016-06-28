@@ -70,10 +70,10 @@ namespace Proteomics
         }
 
         // DOES NOT MODIFY IN PLACE!
-        public static ModificationSites Set(this ModificationSites sites, AminoAcid aminoacid)
+        public static ModificationSites Set(this ModificationSites sites, AminoAcid aminoAcid)
         {
-            if (aminoacid != null)
-                sites |= aminoacid.Site;
+            if (aminoAcid != null)
+                sites |= aminoAcid.Site;
 
             return sites;
         }

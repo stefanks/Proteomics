@@ -37,8 +37,8 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Chemistry, Version=1.0.109.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\Chemistry.1.0.109\lib\net451\Chemistry.dll</HintPath>
+    <Reference Include="Chemistry, Version=1.0.110.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\Chemistry.1.0.110\lib\net451\Chemistry.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -72,9 +72,7 @@
     <Compile Include="Terminus.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
