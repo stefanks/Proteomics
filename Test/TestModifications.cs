@@ -106,6 +106,12 @@ namespace Test
             Assert.AreEqual("", a.ToString());
         }
 
+        public void ModificationCollectionTest2()
+        {
+            ModificationCollection a = new ModificationCollection(new Modification(1, "Mod1"), new Modification(2, "Mod2"));
+            Assert.IsFalse(a.Remove(new Modification(3, "Mod3")));
+        }
+
         [Test]
         public void ModificationWithMultiplePossibilitiesTest()
         {
