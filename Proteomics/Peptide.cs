@@ -90,7 +90,7 @@ namespace Proteomics
             NextAminoAcid = aminoAcidPolymer.GetResidue(EndResidue + 1);
         }
 
-        public IEnumerable<Peptide> GenerateIsotopologues()
+        public IEnumerable<Peptide> GenerateAllModificationCombinations()
         {
             // Get all the modifications that are isotopologues
             var isotopologues = GetUniqueModifications<ModificationWithMultiplePossibilitiesCollection>().ToArray();
@@ -117,7 +117,7 @@ namespace Proteomics
                 if (isotopologues.Length > 1)
                 {
                     // Call the same rotuine on the newly generate peptide that has one less isotopologue
-                    foreach (var subpeptide in peptide.GenerateIsotopologues())
+                    foreach (var subpeptide in peptide.GenerateAllModificationCombinations())
                     {
                         yield return subpeptide;
                     }
@@ -135,12 +135,5 @@ namespace Proteomics
         {
             return new Peptide(this, firstResidue, length);
         }
-
-        public new bool Equals(AminoAcidPolymer other)
-        {
-            return base.Equals(other);
-        }
-
     }
-
 }

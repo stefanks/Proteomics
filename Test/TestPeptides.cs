@@ -527,6 +527,8 @@ namespace Test
         public void GenerateIsotopologues()
         {
             Peptide pep = new Peptide("DERLEK");
+            var a = pep.GenerateAllModificationCombinations().ToArray();
+            Assert.AreEqual(0, a.Count());
             var i = new ModificationWithMultiplePossibilitiesCollection("My Iso Mod", ModificationSites.E);
             i.AddModification(new Modification(1, "My Mod1a", ModificationSites.E));
             i.AddModification(new Modification(2, "My Mod2b", ModificationSites.E));
@@ -536,7 +538,7 @@ namespace Test
             i2.AddModification(new Modification(2, "My Mod2b", ModificationSites.R));
             i2.AddModification(new Modification(3, "My Mod2c", ModificationSites.R));
             pep.SetModification(i2);
-            var a = pep.GenerateIsotopologues().ToArray();
+            a = pep.GenerateAllModificationCombinations().ToArray();
             // Only 6 and not 12, because in the first modification, it is one choice that is substituted across all modification sites
             Assert.AreEqual(6, a.Count());
         }
@@ -695,6 +697,13 @@ namespace Test
             a.AddModification(new Modification(1), ModificationSites.TerminusC);
             Assert.AreEqual(2, a.ModificationCount());
             a.Fragment(FragmentTypes.y);
+        }
+
+        [Test]
+        public void TestGetSubPeptide()
+        {
+            Peptide pep = new Peptide("DERLEK");
+            Assert.AreEqual(new Peptide("LE"), pep.GetSubPeptide(3, 2));
         }
     }
 
