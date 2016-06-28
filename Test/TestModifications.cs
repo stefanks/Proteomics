@@ -20,6 +20,7 @@ using Chemistry;
 using NUnit.Framework;
 using Proteomics;
 using System;
+using System.Collections;
 using System.Linq;
 
 namespace Test
@@ -87,6 +88,13 @@ namespace Test
         public void ModificationCollectionTest()
         {
             ModificationCollection a = new ModificationCollection(new Modification(1, "Mod1"), new Modification(2, "Mod2"));
+
+            double lala = 0;
+            IEnumerable aasdf = a;
+            foreach (var jadfk in aasdf)
+                lala += (jadfk as IHasMass).MonoisotopicMass;
+            Assert.AreEqual(3, lala);
+
             Assert.AreEqual("Mod1 | Mod2", a.ToString());
             a.Add(new Modification(3, "Mod3"));
             Assert.AreEqual("Mod1 | Mod2 | Mod3", a.ToString());
@@ -106,6 +114,7 @@ namespace Test
             Assert.AreEqual("", a.ToString());
         }
 
+        [Test]
         public void ModificationCollectionTest2()
         {
             ModificationCollection a = new ModificationCollection(new Modification(1, "Mod1"), new Modification(2, "Mod2"));
@@ -122,7 +131,11 @@ namespace Test
             Assert.AreEqual("My Mod2b", m[1].Name);
             Assert.Throws<ArgumentException>(() => { m.AddModification(new Modification(1, "gg", ModificationSites.R)); }, "Unable to add a modification with sites other than ModificationSites.E");
             Assert.IsTrue(m.Contains(new Modification(2, "My Mod2b", ModificationSites.E)));
-
+            double kk = 0;
+            IEnumerable a = m;
+            foreach (var b in a)
+                kk += (b as Modification).MonoisotopicMass;
+            Assert.AreEqual(3, kk);
         }
 
         [Test]
