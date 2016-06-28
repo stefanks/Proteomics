@@ -28,33 +28,24 @@ namespace Proteomics
         public ChemicalFormula ThisChemicalFormula { get; private set; }
 
 
-        public ChemicalFormulaModification(string chemicalFormula)
+        public ChemicalFormulaModification(ChemicalFormula chemicalFormula)
             : this(chemicalFormula, ModificationSites.Any)
         {
 
         }
-        public ChemicalFormulaModification(string chemicalFormula, ModificationSites sites)
-            : this(new ChemicalFormula(chemicalFormula), "", sites)
+        public ChemicalFormulaModification(ChemicalFormula chemicalFormula, ModificationSites sites)
+            : this(chemicalFormula, "", sites)
         {
             Name = ThisChemicalFormula.Formula;
         }
 
-        public ChemicalFormulaModification(string chemicalFormula, string name)
-            : this(chemicalFormula, name, ModificationSites.Any)
-        {
-
-        }
-
-        public ChemicalFormulaModification(string chemicalFormula, string name, ModificationSites sites)
-            : this(new ChemicalFormula(chemicalFormula), name, sites)
-        {
-        }
 
         public ChemicalFormulaModification(ChemicalFormula chemicalFormula, string name)
             : this(chemicalFormula, name, ModificationSites.Any)
         {
 
         }
+
         public ChemicalFormulaModification(ChemicalFormula chemicalFormula, string name, ModificationSites sites)
             : base(chemicalFormula.MonoisotopicMass, name, sites)
         {

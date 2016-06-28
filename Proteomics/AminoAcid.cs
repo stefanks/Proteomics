@@ -120,10 +120,6 @@ namespace Proteomics
             return Residues.TryGetValue(symbol, out residue);
         }
 
-        public AminoAcid(string name, char oneLetterAbbreviation, string threeLetterAbbreviation, string chemicalFormula, ModificationSites site)
-            : this(name, oneLetterAbbreviation, threeLetterAbbreviation, new ChemicalFormula(chemicalFormula), site)
-        {
-        }
 
         internal AminoAcid(string name, char oneLetterAbbreviation, string threeLetterAbbreviation, ChemicalFormula chemicalFormula, ModificationSites site)
         {
