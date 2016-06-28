@@ -36,12 +36,6 @@ namespace Proteomics
             get { return _modifications.Count; }
         }
 
-
-        public ModificationWithMultiplePossibilitiesCollection(string name)
-            : this(name, ModificationSites.None)
-        {
-
-        }
         public ModificationWithMultiplePossibilitiesCollection(string name, ModificationSites sites)
             : base(0, name, sites)
         {

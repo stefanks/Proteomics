@@ -103,6 +103,12 @@ namespace Proteomics
             return true;
         }
 
+
+        public bool Equals(ModificationCollection other)
+        {
+            return Count == other.Count && _modifications.ScrambledEquals(other._modifications);
+        }
+
         public IEnumerator<IHasMass> GetEnumerator()
         {
             return _modifications.GetEnumerator();
@@ -111,24 +117,6 @@ namespace Proteomics
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _modifications.GetEnumerator();
-        }
-
-        public override int GetHashCode()
-        {
-            int hCode = _modifications.GetHashCode();
-
-            return Count + hCode;
-        }
-
-        public override bool Equals(object obj)
-        {
-            ModificationCollection col = obj as ModificationCollection;
-            return col != null && Equals(col);
-        }
-
-        public bool Equals(ModificationCollection other)
-        {
-            return Count == other.Count && _modifications.ScrambledEquals(other._modifications);
         }
     }
 }

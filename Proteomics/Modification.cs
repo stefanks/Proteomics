@@ -18,6 +18,7 @@
 
 using Chemistry;
 using System;
+using System.Globalization;
 
 namespace Proteomics
 {
@@ -46,7 +47,7 @@ namespace Proteomics
         /// </summary>
         public string NameAndSites
         {
-            get { return string.Format("{0} ({1})", Name, Sites); }
+            get { return string.Format(CultureInfo.InvariantCulture, "{0} ({1})", Name, Sites); }
         }
 
         public Modification(Modification modification)
