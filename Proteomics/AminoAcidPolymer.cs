@@ -1246,26 +1246,24 @@ namespace Proteomics
 
         #region Fragmentation
 
+
+        /// <summary>
+        /// Returns all fragments that are present in either fragmentation of A or B, but not in both
+        /// </summary>
         public static IEnumerable<Fragment> GetSiteDeterminingFragments(AminoAcidPolymer peptideA, AminoAcidPolymer peptideB, FragmentTypes types)
         {
             if (peptideA == null)
             {
                 // Only b is not null, return all of its fragments
                 if (peptideB != null)
-                {
                     return peptideB.Fragment(types);
-                }
-                throw new ArgumentNullException("peptideA", "Cannot be null");
+                throw new ArgumentNullException("Both peptides cannot be null");
             }
-
             if (peptideB == null)
-            {
                 return peptideA.Fragment(types);
-            }
-            HashSet<Fragment> aFrags = new HashSet<Fragment>(peptideA.Fragment(types));
-            HashSet<Fragment> bfrags = new HashSet<Fragment>(peptideB.Fragment(types));
 
-            aFrags.SymmetricExceptWith(bfrags);
+            HashSet<Fragment> aFrags = new HashSet<Fragment>(peptideA.Fragment(types));
+            aFrags.SymmetricExceptWith(peptideB.Fragment(types));
             return aFrags;
         }
 

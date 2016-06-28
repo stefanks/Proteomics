@@ -94,5 +94,17 @@ namespace Test
 
             Assert.AreEqual(a.First(), c.First());
         }
+
+        [Test]
+        public void TestGetSiteDeterminingFragments()
+        {
+            var pep1 = new Peptide("ACDEFG");
+            var pep2 = new Peptide("ACTVWY");
+            var ok = pep1.GetSiteDeterminingFragments(pep2, FragmentTypes.b);
+            foreach (var kdasjfk in ok)
+                Console.WriteLine(kdasjfk.Sequence);
+            Assert.AreEqual(6, ok.Count());
+            Assert.Contains("ACT", ok.Select(b => b.Sequence).ToArray());
+        }
     }
 }
