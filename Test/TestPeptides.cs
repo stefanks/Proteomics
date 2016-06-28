@@ -660,7 +660,7 @@ namespace Test
         public void TestAApolymerOutOfRangeInitialization()
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => { new Peptide(_mockPeptideEveryAminoAcid, -1, 0, false); }, "The first residue index is outside the valid range [0-21]");
-            Assert.Throws<ArgumentOutOfRangeException>(() => { new Peptide(_mockPeptideEveryAminoAcid, 100, 0, false); }, "The length + firstResidue value is too large");
+            Assert.Throws<ArgumentOutOfRangeException>(() => { new Peptide(_mockPeptideEveryAminoAcid, 0, 100, false); }, "The length + firstResidue value is too large");
         }
 
         [Test]

@@ -100,10 +100,7 @@ namespace Proteomics
             : this(aminoAcidPolymer, 0, aminoAcidPolymer.Length, includeModifications)
         {
         }
-        protected AminoAcidPolymer(AminoAcidPolymer aminoAcidPolymer, int firstResidue, int length)
-            : this(aminoAcidPolymer, firstResidue, length, true)
-        {
-        }
+
         protected AminoAcidPolymer(AminoAcidPolymer aminoAcidPolymer, int firstResidue, int length, bool includeModifications)
         {
             if (firstResidue < 0 || firstResidue > aminoAcidPolymer.Length)
