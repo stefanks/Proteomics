@@ -680,6 +680,22 @@ namespace Test
             Assert.AreEqual(2, _mockTrypticPeptide.ResidueCount(AminoAcid.GetResidue('S'), 2, 3));
             Assert.AreEqual(3, _mockTrypticPeptide.ResidueCount('S', 2, 4));
         }
+
+        [Test]
+        public void TestClearModifications()
+        {
+
+            Peptide a = new Peptide("ACDEFGHIKLMNPQRSTVWY");
+            a.AddModification(new ChemicalFormulaModification("O", ModificationSites.D));
+            a.AddModification(new ChemicalFormulaModification("H", ModificationSites.E));
+            Assert.AreEqual(2, a.ModificationCount());
+            a.ClearModifications();
+            Assert.AreEqual(0, a.ModificationCount());
+            a.AddModification(new ChemicalFormulaModification("O", ModificationSites.NTerminus));
+            a.AddModification(new Modification(1), ModificationSites.TerminusC);
+            Assert.AreEqual(2, a.ModificationCount());
+            a.Fragment(FragmentTypes.y);
+        }
     }
 
     internal class TestProtease : IProtease
