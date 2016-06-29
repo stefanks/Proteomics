@@ -1228,9 +1228,7 @@ namespace Proteomics
             }
 
             if (inMod)
-            {
                 throw new ArgumentException("Couldn't find the closing ] for a modification in this sequence: " + sequence);
-            }
 
 
             Length = index;
@@ -1248,47 +1246,30 @@ namespace Proteomics
 
         #region Fragmentation
 
+
+        /// <summary>
+        /// Returns all fragments that are present in either fragmentation of A or B, but not in both
+        /// </summary>
         public static IEnumerable<Fragment> GetSiteDeterminingFragments(AminoAcidPolymer peptideA, AminoAcidPolymer peptideB, FragmentTypes types)
         {
             if (peptideA == null)
             {
                 // Only b is not null, return all of its fragments
                 if (peptideB != null)
-                {
                     return peptideB.Fragment(types);
-                }
-                throw new ArgumentNullException("peptideA", "Cannot be null");
+                throw new ArgumentNullException("Both peptides cannot be null");
             }
-
             if (peptideB == null)
-            {
                 return peptideA.Fragment(types);
-            }
-            HashSet<Fragment> aFrags = new HashSet<Fragment>(peptideA.Fragment(types));
-            HashSet<Fragment> bfrags = new HashSet<Fragment>(peptideB.Fragment(types));
 
-            aFrags.SymmetricExceptWith(bfrags);
+            HashSet<Fragment> aFrags = new HashSet<Fragment>(peptideA.Fragment(types));
+            aFrags.SymmetricExceptWith(peptideB.Fragment(types));
             return aFrags;
         }
 
         #endregion Fragmentation
 
         #region Digestion
-
-        public static IEnumerable<DigestionPoint> GetDigestionPoints(string sequence, IProtease protease)
-        {
-            return GetDigestionPoints(sequence, protease, 3, 1, int.MaxValue, true, false);
-        }
-        public static IEnumerable<DigestionPoint> GetDigestionPoints(string sequence, IProtease protease, int maxMissedCleavages, int minLength, int maxLength, bool methionineInitiator, bool semiDigestion)
-        {
-            return GetDigestionPoints(sequence, new[] { protease }, maxMissedCleavages, minLength, maxLength, methionineInitiator, semiDigestion);
-        }
-
-
-        public static IEnumerable<DigestionPoint> GetDigestionPoints(string sequence, IEnumerable<IProtease> proteases)
-        {
-            return GetDigestionPoints(sequence, proteases, 3, 1, int.MaxValue, true, false);
-        }
 
         /// <summary>
         /// Gets the digestion points (starting index and length) of a amino acid sequence
@@ -1303,8 +1284,6 @@ namespace Proteomics
         /// <returns>A collection of clevage points and the length of the cut (Item1 = index, Item2 = length)</returns>
         public static IEnumerable<DigestionPoint> GetDigestionPoints(string sequence, IEnumerable<IProtease> proteases, int maxMissedCleavages, int minLength, int maxLength, bool methionineInitiator, bool semiDigestion)
         {
-            if (maxMissedCleavages < 0)
-                throw new ArgumentOutOfRangeException("maxMissedCleavages", "The maximum number of missed cleavages must be >= 0");
 
             int[] indices = GetCleavageIndexes(sequence, proteases).ToArray();
 
@@ -1392,25 +1371,15 @@ namespace Proteomics
             return locations;
         }
 
-        public static IEnumerable<string> Digest(string sequence, IProtease protease)
-        {
-            return Digest(sequence, protease, 0, 1, int.MaxValue, true, false);
-        }
-
         public static IEnumerable<string> Digest(string sequence, IProtease protease, int maxMissedCleavages, int minLength, int maxLength, bool methionineInitiator, bool semiDigestion)
         {
             return Digest(sequence, new[] { protease }, maxMissedCleavages, minLength, maxLength, methionineInitiator, semiDigestion);
         }
 
-        public static IEnumerable<string> Digest(string sequence, IEnumerable<IProtease> proteases)
-        {
-            return Digest(sequence, proteases, 3, 1, int.MaxValue, true, false);
-        }
         public static IEnumerable<string> Digest(string sequence, IEnumerable<IProtease> proteases, int maxMissedCleavages, int minLength, int maxLength, bool methionineInitiator, bool semiDigestion)
         {
             return GetDigestionPoints(sequence, proteases, maxMissedCleavages, minLength, maxLength, methionineInitiator, semiDigestion).Select(points => sequence.Substring(points.Index, points.Length));
         }
-
 
         public static IEnumerable<string> Digest(AminoAcidPolymer sequence, IProtease protease)
         {

@@ -561,7 +561,6 @@ namespace Test
         {
             Peptide pepA = new Peptide("DERLEK");
             pepA.AddModification(new ChemicalFormulaModification("SO"), Terminus.N);
-            Console.WriteLine(pepA);
             Assert.AreEqual("[OS]-DERLEK", pepA.ToString());
         }
 
@@ -577,51 +576,21 @@ namespace Test
         {
 
             var ye = AminoAcid.GetResidue('A');
-            Console.WriteLine(ye);
-            Console.WriteLine(ye.Letter);
-            Console.WriteLine(ye.Symbol);
-            Console.WriteLine(ye.ThisChemicalFormula.Formula);
 
 
-            Console.WriteLine("Creating Peptide:");
             Peptide A = new Peptide("A");
-            Console.WriteLine("Created Peptide");
-
 
             var yeas = AminoAcid.GetResidue('A');
-            Console.WriteLine(yeas);
-            Console.WriteLine(yeas.Letter);
-            Console.WriteLine(yeas.Symbol);
-            Console.WriteLine(yeas.ThisChemicalFormula.Formula);
-
-
 
             ChemicalFormula ok = new ChemicalFormula(AminoAcid.GetResidue('A').ThisChemicalFormula);
-            Console.WriteLine(ok.Formula);
             ok.Add(new ChemicalFormulaTerminus("OH"));
-            Console.WriteLine(ok.Formula);
             ok.Add(new ChemicalFormulaTerminus("H"));
-            Console.WriteLine(ok.Formula);
 
 
             var ye2 = AminoAcid.GetResidue('A');
-            Console.WriteLine(ye2);
-            Console.WriteLine(ye2.Letter);
-            Console.WriteLine(ye2.Symbol);
-            Console.WriteLine(ye2.ThisChemicalFormula.Formula);
 
 
-            Console.WriteLine("End of just alanine stuff:");
-
-            Console.WriteLine("Just alanine stuff:");
             var ye3 = AminoAcid.GetResidue('A');
-            Console.WriteLine(ye3);
-            Console.WriteLine(ye3.Letter);
-            Console.WriteLine(ye3.Symbol);
-            Console.WriteLine(ye3.ThisChemicalFormula.Formula);
-
-
-            Console.WriteLine("End of just alanine stuff:");
 
 
 
@@ -641,20 +610,14 @@ namespace Test
         public void TestMultipleModificationsAtSingleResidue()
         {
             Peptide a = new Peptide("ACDEFGHIKLMNPQRSTVWY");
-            Console.WriteLine(a.Sequence);
-            Console.WriteLine(a.GetSequenceWithModifications());
             a.AddModification(new ChemicalFormulaModification("O", ModificationSites.D));
             a.AddModification(new ChemicalFormulaModification("H", ModificationSites.D));
-            Console.WriteLine(a.Sequence);
-            Console.WriteLine(a.GetSequenceWithModifications());
             var products = a.Fragment(FragmentTypes.b | FragmentTypes.y, true);
             foreach (Fragment fragment in products)
             {
-                Console.WriteLine(fragment.Sequence);
             }
             foreach (IHasChemicalFormula fragment in products)
             {
-                Console.WriteLine(fragment.ThisChemicalFormula.Formula);
             }
         }
 
@@ -705,6 +668,16 @@ namespace Test
             Peptide pep = new Peptide("DERLEK");
             Assert.AreEqual(new Peptide("LE"), pep.GetSubPeptide(3, 2));
         }
+
+
+        [Test]
+        public void TestRealPeptideWithModifications()
+        {
+            Peptide a = new Peptide("LDNLQQEIDFLTALYQAELSQM[O]QTQISETNVILSM[O]DNNR");
+            Assert.AreEqual(2, a.ModificationCount());
+        }
+
+
     }
 
     internal class TestProtease : IProtease

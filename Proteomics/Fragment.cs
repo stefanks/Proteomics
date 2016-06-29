@@ -85,6 +85,11 @@ namespace Proteomics
             return string.Format(CultureInfo.InvariantCulture, "{0}{1}", Enum.GetName(typeof(FragmentTypes), FragmentType), Number);
         }
 
+        public override int GetHashCode()
+        {
+            return MonoisotopicMass.GetHashCode();
+        }
+
         public bool Equals(Fragment other)
         {
             return FragmentType.Equals(other.FragmentType) && Number.Equals(other.Number) && MonoisotopicMass.MassEquals(other.MonoisotopicMass);
