@@ -4,6 +4,10 @@
 
 Library for Proteomics objects. 
 
+## Main Classes
+
+AminoAcidPolymer is an abstract class representing any polymer made of amino acids.
+
 Code heavily borrowed from https://github.com/dbaileychess/CSMSL and distrubuted under the appropriate license.
 
 Releases are here: https://www.nuget.org/packages/Proteomics/
