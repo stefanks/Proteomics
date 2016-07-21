@@ -4,7 +4,7 @@
 
 Library for Proteomics objects. 
 
-## Main Classes
+## Usage
 
 AminoAcidPolymer is an abstract class representing any polymer made of amino acids.
 
