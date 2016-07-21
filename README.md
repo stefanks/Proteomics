@@ -10,4 +10,4 @@ Create peptides, and break them into fragments.
 
 Code heavily borrowed from https://github.com/dbaileychess/CSMSL and distrubuted under the appropriate license.
 
-Releases are here: https://www.nuget.org/packages/Proteomics/
+Releases are here: https://www.nugorg/packages/Proteomics/
