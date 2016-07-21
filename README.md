@@ -4,6 +4,10 @@
 
 Library for Proteomics objects. 
 
+## Usage
+
+Create peptides, and break them into fragments.
+
 Code heavily borrowed from https://github.com/dbaileychess/CSMSL and distrubuted under the appropriate license.
 
 Releases are here: https://www.nuget.org/packages/Proteomics/
